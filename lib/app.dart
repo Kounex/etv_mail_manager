@@ -11,11 +11,11 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: AppRouter().router,
       theme: FlexThemeData.light(
-        primary: const Color.fromARGB(255, 255, 17, 0),
-        surfaceMode: FlexSurfaceMode.highSurfaceLowScaffold,
-        blendLevel: 5,
+        primary: Colors.black,
+        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+        lightIsWhite: true,
+        surfaceTint: Colors.grey[500],
         subThemesData: const FlexSubThemesData(
-          blendOnLevel: 5,
           useTextTheme: true,
           useM2StyleDividerInM3: true,
           alignedDropdown: true,
