@@ -1,3 +1,5 @@
+import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/widgets/etv_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,9 +16,6 @@ class ShellScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ETV Mail Manager'),
-      ),
       drawer: Drawer(
         child: Column(
           children: [
@@ -32,7 +31,17 @@ class ShellScaffold extends StatelessWidget {
           ],
         ),
       ),
-      body: this.child,
+      body: Stack(
+        children: [
+          this.child,
+          const ETVBanner(),
+          Positioned(
+            top: DesignSystem.spacing.x12,
+            left: DesignSystem.spacing.x12,
+            child: const DrawerButton(),
+          ),
+        ],
+      ),
     );
   }
 }

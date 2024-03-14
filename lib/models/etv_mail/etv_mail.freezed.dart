@@ -27,6 +27,7 @@ mixin _$ETVMail {
   String? get $updatedAt => throw _privateConstructorUsedError;
   List<String>? get $permissions => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
+  MailType get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +46,8 @@ abstract class $ETVMailCopyWith<$Res> {
       String? $createdAt,
       String? $updatedAt,
       List<String>? $permissions,
-      String address});
+      String address,
+      MailType type});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$ETVMailCopyWithImpl<$Res, $Val extends ETVMail>
     Object? $updatedAt = freezed,
     Object? $permissions = freezed,
     Object? address = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
       $id: freezed == $id
@@ -98,6 +101,10 @@ class _$ETVMailCopyWithImpl<$Res, $Val extends ETVMail>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MailType,
     ) as $Val);
   }
 }
@@ -116,7 +123,8 @@ abstract class _$$ETVMailImplCopyWith<$Res> implements $ETVMailCopyWith<$Res> {
       String? $createdAt,
       String? $updatedAt,
       List<String>? $permissions,
-      String address});
+      String address,
+      MailType type});
 }
 
 /// @nodoc
@@ -137,6 +145,7 @@ class __$$ETVMailImplCopyWithImpl<$Res>
     Object? $updatedAt = freezed,
     Object? $permissions = freezed,
     Object? address = null,
+    Object? type = null,
   }) {
     return _then(_$ETVMailImpl(
       $id: freezed == $id
@@ -167,6 +176,10 @@ class __$$ETVMailImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MailType,
     ));
   }
 }
@@ -181,7 +194,8 @@ class _$ETVMailImpl implements _ETVMail {
       this.$createdAt,
       this.$updatedAt,
       final List<String>? $permissions,
-      required this.address})
+      required this.address,
+      this.type = MailType.available})
       : _$permissions = $permissions;
 
   factory _$ETVMailImpl.fromJson(Map<String, dynamic> json) =>
@@ -209,10 +223,13 @@ class _$ETVMailImpl implements _ETVMail {
 
   @override
   final String address;
+  @override
+  @JsonKey()
+  final MailType type;
 
   @override
   String toString() {
-    return 'ETVMail(\$id: ${$id}, \$databaseId: ${$databaseId}, \$collectionId: ${$collectionId}, \$createdAt: ${$createdAt}, \$updatedAt: ${$updatedAt}, \$permissions: ${$permissions}, address: $address)';
+    return 'ETVMail(\$id: ${$id}, \$databaseId: ${$databaseId}, \$collectionId: ${$collectionId}, \$createdAt: ${$createdAt}, \$updatedAt: ${$updatedAt}, \$permissions: ${$permissions}, address: $address, type: $type)';
   }
 
   @override
@@ -231,7 +248,8 @@ class _$ETVMailImpl implements _ETVMail {
                 other.$updatedAt == $updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._$permissions, _$permissions) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
@@ -244,7 +262,8 @@ class _$ETVMailImpl implements _ETVMail {
       $createdAt,
       $updatedAt,
       const DeepCollectionEquality().hash(_$permissions),
-      address);
+      address,
+      type);
 
   @JsonKey(ignore: true)
   @override
@@ -268,7 +287,8 @@ abstract class _ETVMail implements ETVMail {
       final String? $createdAt,
       final String? $updatedAt,
       final List<String>? $permissions,
-      required final String address}) = _$ETVMailImpl;
+      required final String address,
+      final MailType type}) = _$ETVMailImpl;
 
   factory _ETVMail.fromJson(Map<String, dynamic> json) = _$ETVMailImpl.fromJson;
 
@@ -286,6 +306,8 @@ abstract class _ETVMail implements ETVMail {
   List<String>? get $permissions;
   @override
   String get address;
+  @override
+  MailType get type;
   @override
   @JsonKey(ignore: true)
   _$$ETVMailImplCopyWith<_$ETVMailImpl> get copyWith =>

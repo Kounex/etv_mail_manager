@@ -32,8 +32,11 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return WebScaffold(
+      verticalPadding: DesignSystem.spacing.x64,
       children: [
-        const MailBox(),
+        const MailBox(type: MailType.available),
+        const MailBox(type: MailType.unreachable),
+        const MailBox(type: MailType.removed),
         ElevatedButton(
           onPressed: () => ETVMailService().create(
             mail: ETVMail(address: 'lolwhut@web.de'),
