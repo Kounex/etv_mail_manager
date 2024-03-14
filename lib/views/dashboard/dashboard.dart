@@ -1,9 +1,9 @@
-import 'package:base_components/base_components.dart';
-import 'package:etv_mail_manager/utils/signals.dart';
+import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/etv_mail/etv_mail.dart';
 import '../../models/etv_mail/service.dart';
+import '../../utils/signals.dart';
 import 'widgets/mail_box.dart';
 
 class DashboardView extends StatefulWidget {
@@ -31,18 +31,11 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    return WebScaffold(
-      verticalPadding: DesignSystem.spacing.x64,
+    return const ETVScaffold(
       children: [
-        const MailBox(type: MailType.available),
-        const MailBox(type: MailType.unreachable),
-        const MailBox(type: MailType.removed),
-        ElevatedButton(
-          onPressed: () => ETVMailService().create(
-            mail: ETVMail(address: 'lolwhut@web.de'),
-          ),
-          child: const Text('New E-Mail'),
-        ),
+        MailBox(type: MailType.available),
+        MailBox(type: MailType.unreachable),
+        MailBox(type: MailType.removed),
       ],
     );
   }

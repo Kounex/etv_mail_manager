@@ -23,8 +23,10 @@ class MailBox extends StatelessWidget {
           ?.where((mail) => mail.type == this.type);
 
       return BaseCard(
-        title: '${mails?.length ?? 0} mail(s) in list',
+        title: '${mails?.length ?? 0} mail(s)',
         titleStyle: Theme.of(context).textTheme.bodyLarge,
+        leftPadding: 0,
+        rightPadding: 0,
         initialExpanded: false,
         expandable: mails != null && mails.isNotEmpty,
         centerChild: false,

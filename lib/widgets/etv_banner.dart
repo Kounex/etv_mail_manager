@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../utils/theme.dart';
+
 class ETVBanner extends StatelessWidget {
   const ETVBanner({super.key});
 
@@ -12,17 +14,17 @@ class ETVBanner extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: DesignSystem.size.x8,
+          height: DesignSystem.size.x8 + MediaQuery.paddingOf(context).top,
           width: double.infinity,
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 220, 20, 10),
+            color: ThemeUtils.etvColor,
           ),
         ),
         Positioned(
-          top: 0,
+          top: MediaQuery.paddingOf(context).top,
           right: DesignSystem.spacing.x32,
           child: Container(
-            color: const Color.fromARGB(255, 220, 20, 10),
+            color: ThemeUtils.etvColor,
             child: Image.asset(
               'assets/images/etv-logo.png',
               height: DesignSystem.size.x64,

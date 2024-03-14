@@ -19,6 +19,32 @@ class ShellScaffold extends StatelessWidget {
       drawer: Drawer(
         child: Column(
           children: [
+            SizedBox(height: MediaQuery.paddingOf(context).top),
+            Row(
+              children: [
+                SizedBox(width: DesignSystem.spacing.x24),
+                Image.asset(
+                  'assets/images/etv-logo.png',
+                  height: DesignSystem.size.x128,
+                ),
+                SizedBox(width: DesignSystem.spacing.x24),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Badminton',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    Text(
+                      'Mail Manager',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: DesignSystem.spacing.x12),
+            const BaseDivider(),
             ...AppRoutes.values.map(
               (route) => ListTile(
                 onTap: () {
@@ -36,9 +62,11 @@ class ShellScaffold extends StatelessWidget {
           this.child,
           const ETVBanner(),
           Positioned(
-            top: DesignSystem.spacing.x12,
+            top: DesignSystem.spacing.x12 + MediaQuery.paddingOf(context).top,
             left: DesignSystem.spacing.x12,
-            child: const DrawerButton(),
+            child: const Card(
+              child: DrawerButton(),
+            ),
           ),
         ],
       ),

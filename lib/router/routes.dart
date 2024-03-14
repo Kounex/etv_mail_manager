@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../views/dashboard/dashboard.dart';
+import '../views/import/import.dart';
 
 abstract class BaseRoute {
   String get path;
@@ -31,6 +32,6 @@ enum AppRoutes implements BaseRoute {
   @override
   Widget get view => switch (this) {
         AppRoutes.dashboard => const DashboardView(),
-        AppRoutes.import => const DashboardView()
+        AppRoutes.import => const ImportView()
       };
 }
