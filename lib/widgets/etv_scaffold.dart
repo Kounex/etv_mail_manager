@@ -12,8 +12,7 @@ class ETVScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WebScaffold(
-      verticalPadding:
-          DesignSystem.spacing.x32 + MediaQuery.paddingOf(context).top,
+      verticalPadding: DesignSystem.spacing.x92,
       children: this.children,
     );
   }

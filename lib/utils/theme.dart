@@ -5,6 +5,7 @@ class ThemeUtils {
   static const Color etvColor = Color.fromARGB(255, 220, 20, 10);
 
   static ThemeData etvFlexTheme = FlexThemeData.light(
+    platform: TargetPlatform.android,
     primary: Colors.black,
     secondary: ThemeUtils.etvColor,
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,

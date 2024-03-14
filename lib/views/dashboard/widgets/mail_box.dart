@@ -23,7 +23,21 @@ class MailBox extends StatelessWidget {
           ?.where((mail) => mail.type == this.type);
 
       return BaseCard(
-        title: '${mails?.length ?? 0} mail(s)',
+        // title: '${mails?.length ?? 0} mail(s)',
+        titleWidget: Row(
+          children: [
+            IconButton(
+              onPressed: mails != null && mails.isNotEmpty ? () {} : null,
+              icon: const Icon(Icons.copy),
+              visualDensity: VisualDensity.compact,
+            ),
+            SizedBox(width: DesignSystem.spacing.x12),
+            Text(
+              '${mails?.length ?? 0} mail(s)',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ),
         titleStyle: Theme.of(context).textTheme.bodyLarge,
         leftPadding: 0,
         rightPadding: 0,
