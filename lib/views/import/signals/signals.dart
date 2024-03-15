@@ -5,15 +5,9 @@ class ImportSignals {
   static ImportSignals? _instance;
 
   final validatedMails = SetSignal<ETVMail>({});
-  final wrongMails = ListSignal<String>([]);
+  final wrongMails = SetSignal<String>({});
 
-  ImportSignals._() {
-    effect(() {
-      if (this.validatedMails.value.isEmpty) {
-        this.wrongMails.peek().clear();
-      }
-    });
-  }
+  ImportSignals._();
 
   factory ImportSignals() => _instance ??= ImportSignals._();
 }

@@ -4,7 +4,6 @@ import 'package:etv_mail_manager/views/import/signals/signals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signals_flutter/signals_flutter.dart';
 
 class MailTextField extends StatefulWidget {
   const MailTextField({super.key});
@@ -23,13 +22,12 @@ class _MailTextFieldState extends State<MailTextField> {
 
     _controller = CustomValidationTextEditingController(check: (text) {
       ImportSignals().wrongMails.clear();
-      if (text == null || text.isEmpty) return null;
-      List<String> potentialMails = text.split(RegExp(r'[,;\t\n\r ]'));
+      List<String>? potentialMails = text?.split(RegExp(r'[,;\t\n\r ]'));
 
-      Set<String> errors = potentialMails
-          .map((mail) {
+      Set<String>? errors = potentialMails
+          ?.map((mail) {
             String? error = ValidationUtils.email(mail);
-            if (error != null) {
+            if (mail.isNotEmpty && error != null) {
               ImportSignals().wrongMails.add(mail);
             }
             return error;
@@ -37,7 +35,7 @@ class _MailTextFieldState extends State<MailTextField> {
           .whereType<String>()
           .toSet();
 
-      if (errors.isNotEmpty) {
+      if (errors != null && errors.isNotEmpty) {
         return errors.join('\n');
       }
       return null;
@@ -56,69 +54,63 @@ class _MailTextFieldState extends State<MailTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      child: BaseConstrainedBox(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const EnumerationBlock(
-              title:
-                  'Paste the email addresses which should be imported. Allowed separators:',
-              entries: [
-                'comma (,)',
-                'semicolon (;)',
-                'space ( )',
-                'newline (\\n)',
-                'tab (\\t)'
-              ],
-            ),
-            SizedBox(height: DesignSystem.spacing.x12),
-            SizedBox(
-              height: DesignSystem.size.x256,
-              child: KeyboardNumberHeader(
+    return BaseConstrainedBox(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const EnumerationBlock(
+            title:
+                'Paste the email addresses which should be imported. Allowed separators:',
+            entries: [
+              'comma (,)',
+              'semicolon (;)',
+              'space ( )',
+              'newline (\\n)',
+              'tab (\\t)'
+            ],
+          ),
+          SizedBox(height: DesignSystem.spacing.x12),
+          SizedBox(
+            height: DesignSystem.size.x256,
+            child: KeyboardNumberHeader(
+              focusNode: _focusNode,
+              child: BaseAdaptiveTextField(
+                controller: _controller,
                 focusNode: _focusNode,
-                child: BaseAdaptiveTextField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  platform: TargetPlatform.iOS,
-                  expands: true,
-                  placeholder: 'Emails...',
-                  keyboardType: TextInputType.multiline,
-                  textAlignVertical: TextAlignVertical.top,
-                ),
+                platform: TargetPlatform.iOS,
+                expands: true,
+                placeholder: 'Emails...',
+                keyboardType: TextInputType.multiline,
+                textAlignVertical: TextAlignVertical.top,
               ),
             ),
-            SizedBox(height: DesignSystem.spacing.x12),
-            Watch((context) {
-              if (ImportSignals().wrongMails.value.isNotEmpty) {
-                return Text(
-                    'These mails are not correct: ${ImportSignals().wrongMails.reduce((value, element) => value += '$element, ')}');
-              }
-              return const SizedBox();
-            }),
-            SizedBox(height: DesignSystem.spacing.x12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: DesignSystem.size.x128,
-                  child: BaseButton(
-                    onPressed: _validateImport,
-                    text: 'Validate',
-                  ),
+          ),
+          SizedBox(height: DesignSystem.spacing.x12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: DesignSystem.size.x128,
+                child: BaseButton(
+                  onPressed: _validateImport,
+                  text: 'Validate',
                 ),
-                SizedBox(width: DesignSystem.spacing.x12),
-                SizedBox(
-                  width: DesignSystem.size.x128,
-                  child: BaseButton(
-                    onPressed: () => ImportSignals().validatedMails.clear(),
-                    text: 'Reset',
-                  ),
+              ),
+              SizedBox(width: DesignSystem.spacing.x12),
+              SizedBox(
+                width: DesignSystem.size.x128,
+                child: BaseButton(
+                  onPressed: () {
+                    _controller.clear();
+                    ImportSignals().wrongMails.clear();
+                    ImportSignals().validatedMails.clear();
+                  },
+                  text: 'Reset',
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -18,7 +18,7 @@ _$ETVMailImpl _$$ETVMailImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       address: json['address'] as String,
       type: $enumDecodeNullable(_$MailTypeEnumMap, json['type']) ??
-          MailType.available,
+          MailType.active,
     );
 
 Map<String, dynamic> _$$ETVMailImplToJson(_$ETVMailImpl instance) =>
@@ -34,7 +34,7 @@ Map<String, dynamic> _$$ETVMailImplToJson(_$ETVMailImpl instance) =>
     };
 
 const _$MailTypeEnumMap = {
-  MailType.available: 'available',
+  MailType.active: 'active',
   MailType.unreachable: 'unreachable',
   MailType.removed: 'removed',
 };

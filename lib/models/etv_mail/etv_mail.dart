@@ -14,7 +14,7 @@ class ETVMail with _$ETVMail {
     String? $updatedAt,
     List<String>? $permissions,
     required String address,
-    @Default(MailType.available) MailType type,
+    @Default(MailType.active) MailType type,
   }) = _ETVMail;
 
   factory ETVMail.fromJson(Map<String, dynamic> json) =>
@@ -22,18 +22,18 @@ class ETVMail with _$ETVMail {
 }
 
 enum MailType {
-  available,
+  active,
   unreachable,
   removed;
 
   String get name => switch (this) {
-        MailType.available => 'Available',
+        MailType.active => 'Active',
         MailType.unreachable => 'Unreachable',
         MailType.removed => 'Removed',
       };
 
   Color get color => switch (this) {
-        MailType.available => Colors.lightGreen,
+        MailType.active => Colors.lightGreen,
         MailType.unreachable => Colors.orangeAccent,
         MailType.removed => Colors.red,
       };

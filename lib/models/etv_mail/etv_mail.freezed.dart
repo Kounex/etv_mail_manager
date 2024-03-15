@@ -195,7 +195,7 @@ class _$ETVMailImpl implements _ETVMail {
       this.$updatedAt,
       final List<String>? $permissions,
       required this.address,
-      this.type = MailType.available})
+      this.type = MailType.active})
       : _$permissions = $permissions;
 
   factory _$ETVMailImpl.fromJson(Map<String, dynamic> json) =>

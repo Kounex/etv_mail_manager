@@ -1,10 +1,12 @@
+import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/views/dashboard/widgets/delete_all_button.dart';
 import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/etv_mail/etv_mail.dart';
 import '../../models/etv_mail/service.dart';
 import '../../utils/signals.dart';
-import 'widgets/mail_box.dart';
+import 'widgets/mail_box/mail_box.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -27,15 +29,23 @@ class _DashboardViewState extends State<DashboardView> {
       context,
       ETVMailService().mailDelete,
     );
+
+    SignalsUtils.handleAsync(
+      context,
+      ETVMailService().mailDeleteBulk,
+      handleLoading: true,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return const ETVScaffold(
+    return ETVScaffold(
       children: [
-        MailBox(type: MailType.available),
-        MailBox(type: MailType.unreachable),
-        MailBox(type: MailType.removed),
+        const MailBox(type: MailType.active),
+        const MailBox(type: MailType.unreachable),
+        const MailBox(type: MailType.removed),
+        SizedBox(height: DesignSystem.spacing.x64),
+        const DeleteAllButton(),
       ],
     );
   }
