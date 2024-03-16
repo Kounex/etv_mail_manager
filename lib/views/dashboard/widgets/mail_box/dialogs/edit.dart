@@ -98,7 +98,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
             platform: TargetPlatform.iOS,
             clearButton: true,
           ),
-          SizedBox(height: DesignSystem.spacing.x8),
+          SizedBox(height: DesignSystem.spacing.x12),
           Row(
             children: [
               DropdownButton<MailType?>(

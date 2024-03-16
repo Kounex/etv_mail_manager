@@ -1,5 +1,6 @@
 import 'package:base_components/base_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../models/etv_mail/etv_mail.dart';
 import '../../../../models/etv_mail/service.dart';
@@ -12,12 +13,41 @@ class MailBoxTitle extends StatelessWidget {
     this.mails,
   });
 
+  Future<void> _handleCopy(BuildContext context) async {
+    try {
+      String? clipboard = this.mails?.fold<String>('',
+          (previousValue, element) => '$previousValue ${element.address}, ');
+
+      clipboard = clipboard?.substring(0, clipboard.length - 2);
+
+      await Clipboard.setData(
+        ClipboardData(
+          text: clipboard ?? '',
+        ),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Copied to clipboard!'),
+        ),
+      );
+    } catch (e, st) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not copy!'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         IconButton(
-          onPressed: mails != null && mails!.isNotEmpty ? () {} : null,
+          onPressed: mails != null && mails!.isNotEmpty
+              ? () => _handleCopy(context)
+              : null,
           icon: const Icon(Icons.copy),
           visualDensity: VisualDensity.compact,
         ),
