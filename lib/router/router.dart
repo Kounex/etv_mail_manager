@@ -61,7 +61,7 @@ class AppRouter {
 
   Page _webPage(BaseRoute route) => NoTransitionPage(
         child: Title(
-          title: 'EMM | $route.name',
+          title: 'EMM | ${route.name}',
           color: Colors.white,
           child: route.view,
         ),
