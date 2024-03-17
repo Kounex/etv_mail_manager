@@ -20,8 +20,12 @@ class AppRouter {
         ShellRoute(
           navigatorKey: _shellKey,
           pageBuilder: (context, state, child) => NoTransitionPage(
-            child: ShellScaffold(
-              child: child,
+            child: Title(
+              color: Colors.white,
+              title: 'ETV Mail Manager',
+              child: ShellScaffold(
+                child: child,
+              ),
             ),
           ),
           routes: _routes(AppRoutes.values),
@@ -42,9 +46,7 @@ class AppRouter {
           parentNavigatorKey: route.fullscreen ? _rootKey : null,
           path: '/${route.path.split('/').skip(level + 1).take(1).join('')}',
           name: route.name,
-          pageBuilder: (context, state) => NoTransitionPage(
-            child: route.view,
-          ),
+          pageBuilder: (context, state) => _webPage(route),
           routes: _routes(
             List.from(
               routes.where((innerRoute) =>
@@ -56,4 +58,12 @@ class AppRouter {
       ),
     );
   }
+
+  Page _webPage(BaseRoute route) => NoTransitionPage(
+        child: Title(
+          title: 'EMM | $route.name',
+          color: Colors.white,
+          child: route.view,
+        ),
+      );
 }
