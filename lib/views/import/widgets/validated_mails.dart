@@ -28,7 +28,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
       }
     }
 
-    ETVMailService().createBulk(createMails: createMails);
+    ETVMailService().createBulk(createMails);
   }
 
   @override

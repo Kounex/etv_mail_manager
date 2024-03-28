@@ -42,9 +42,10 @@ class _ImportViewState extends State<ImportView> {
               ],
             ),
           _ => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const Flexible(

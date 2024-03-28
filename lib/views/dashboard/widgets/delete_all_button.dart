@@ -21,7 +21,7 @@ class DeleteAllButton extends StatelessWidget {
                 'Just to double check you did not click yes by mistake. If not, go ahead!',
             isYesDestructive: true,
             onYes: (_) => ETVMailService()
-                .deleteBulk(deleteMails: ETVMailService().mails.value.value!),
+                .deleteBulk(ETVMailService().mails.value.value!),
           ),
         ),
       ),

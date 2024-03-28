@@ -1,6 +1,6 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/models/etv_mail/service.dart';
-import 'package:etv_mail_manager/router/shell_scaffold/shell_drawer.dart';
+import 'package:etv_mail_manager/router/shell/drawer.dart';
 import 'package:etv_mail_manager/utils/signals.dart';
 import 'package:etv_mail_manager/widgets/etv_banner.dart';
 import 'package:flutter/material.dart';

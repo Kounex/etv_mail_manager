@@ -43,7 +43,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
     if (_controller.isValid) {
       ETVMailService()
           .update(
-            mail: this.widget.mail.copyWith(
+            this.widget.mail.copyWith(
                   address: _controller.text.toLowerCase().trim(),
                   type: _type!,
                 ),
@@ -61,7 +61,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
             'Are you sure you want to delete this mail? You will need to go through the import procedure again to get it back!',
         isYesDestructive: true,
         onYes: (_) => ETVMailService()
-            .delete(uuid: this.widget.mail.$id!)
+            .delete(this.widget.mail.$id!)
             .then((_) => Navigator.of(context).pop()),
       ),
     );

@@ -10,7 +10,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter().router,
+      routerConfig: BaseAppRouter().router,
       theme: ThemeUtils.etvFlexTheme,
     );
   }
