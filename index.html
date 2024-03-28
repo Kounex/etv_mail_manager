@@ -18,12 +18,12 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="App to manage mails">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="etv_mail_manager">
+  <meta name="apple-mobile-web-app-title" content="ETV Mail Manager">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -34,13 +34,28 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "104395338";
+    const serviceWorkerVersion = "650720498";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <span id="overlay"></span>
   <script>
+    function disableFlutterScroll() {
+      const baseFlutterViewProps = window.document.getElementsByTagName('flutter-view')[0].style.cssText;
+      const baseBodyProps = window.document.getElementsByTagName('body')[0].style.cssText;
+      window.document.getElementsByTagName('flutter-view')[0].style.cssText = baseFlutterViewProps + ' z-index: -9999; touch-action: none';
+      window.document.getElementsByTagName('body')[0].style.cssText = baseBodyProps.replace('touch-action: none', '');
+      window.document.getElementById('overlay').className = 'block-input';
+    }
+
+    function enableFlutterScroll() {
+      const baseProps = window.document.getElementsByTagName('flutter-view')[0].style.cssText;
+      window.document.getElementsByTagName('flutter-view')[0].style.cssText = baseProps.replace('z-index: -9999; touch-action: none', '');
+      window.document.getElementById('overlay').className = '';
+    }
+
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -56,4 +71,19 @@
     });
   </script>
 </body>
+<style>
+  /* html, body {
+    overscroll-behavior: contain;
+  }
+
+  .block-input {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  flutter-view {
+    position: relative !important;
+  } */
+</style>
 </html>
