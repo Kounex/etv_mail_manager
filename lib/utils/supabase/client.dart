@@ -72,6 +72,7 @@ class BaseSupabaseClient {
     final result = await Supabase.instance.client
         .from(table.apiName)
         .update(data)
+        .eq('uuid', uuid)
         .select();
 
     if (result.isEmpty) {

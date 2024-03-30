@@ -20,14 +20,11 @@ ETVMail _$ETVMailFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ETVMail {
-  String? get $id => throw _privateConstructorUsedError;
-  String? get $databaseId => throw _privateConstructorUsedError;
-  String? get $collectionId => throw _privateConstructorUsedError;
-  String? get $createdAt => throw _privateConstructorUsedError;
-  String? get $updatedAt => throw _privateConstructorUsedError;
-  List<String>? get $permissions => throw _privateConstructorUsedError;
+  String get uuid => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   MailType get type => throw _privateConstructorUsedError;
+  String? get reason => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,14 +37,11 @@ abstract class $ETVMailCopyWith<$Res> {
       _$ETVMailCopyWithImpl<$Res, ETVMail>;
   @useResult
   $Res call(
-      {String? $id,
-      String? $databaseId,
-      String? $collectionId,
-      String? $createdAt,
-      String? $updatedAt,
-      List<String>? $permissions,
+      {String uuid,
+      DateTime createdAt,
       String address,
-      MailType type});
+      MailType type,
+      String? reason});
 }
 
 /// @nodoc
@@ -63,40 +57,21 @@ class _$ETVMailCopyWithImpl<$Res, $Val extends ETVMail>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? $id = freezed,
-    Object? $databaseId = freezed,
-    Object? $collectionId = freezed,
-    Object? $createdAt = freezed,
-    Object? $updatedAt = freezed,
-    Object? $permissions = freezed,
+    Object? uuid = null,
+    Object? createdAt = null,
     Object? address = null,
     Object? type = null,
+    Object? reason = freezed,
   }) {
     return _then(_value.copyWith(
-      $id: freezed == $id
-          ? _value.$id
-          : $id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $databaseId: freezed == $databaseId
-          ? _value.$databaseId
-          : $databaseId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $collectionId: freezed == $collectionId
-          ? _value.$collectionId
-          : $collectionId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $createdAt: freezed == $createdAt
-          ? _value.$createdAt
-          : $createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $updatedAt: freezed == $updatedAt
-          ? _value.$updatedAt
-          : $updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $permissions: freezed == $permissions
-          ? _value.$permissions
-          : $permissions // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -105,6 +80,10 @@ class _$ETVMailCopyWithImpl<$Res, $Val extends ETVMail>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MailType,
+      reason: freezed == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -117,14 +96,11 @@ abstract class _$$ETVMailImplCopyWith<$Res> implements $ETVMailCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? $id,
-      String? $databaseId,
-      String? $collectionId,
-      String? $createdAt,
-      String? $updatedAt,
-      List<String>? $permissions,
+      {String uuid,
+      DateTime createdAt,
       String address,
-      MailType type});
+      MailType type,
+      String? reason});
 }
 
 /// @nodoc
@@ -138,40 +114,21 @@ class __$$ETVMailImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? $id = freezed,
-    Object? $databaseId = freezed,
-    Object? $collectionId = freezed,
-    Object? $createdAt = freezed,
-    Object? $updatedAt = freezed,
-    Object? $permissions = freezed,
+    Object? uuid = null,
+    Object? createdAt = null,
     Object? address = null,
     Object? type = null,
+    Object? reason = freezed,
   }) {
     return _then(_$ETVMailImpl(
-      $id: freezed == $id
-          ? _value.$id
-          : $id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $databaseId: freezed == $databaseId
-          ? _value.$databaseId
-          : $databaseId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $collectionId: freezed == $collectionId
-          ? _value.$collectionId
-          : $collectionId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $createdAt: freezed == $createdAt
-          ? _value.$createdAt
-          : $createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $updatedAt: freezed == $updatedAt
-          ? _value.$updatedAt
-          : $updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
-      $permissions: freezed == $permissions
-          ? _value._$permissions
-          : $permissions // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -180,6 +137,10 @@ class __$$ETVMailImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MailType,
+      reason: freezed == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -188,48 +149,30 @@ class __$$ETVMailImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ETVMailImpl implements _ETVMail {
   _$ETVMailImpl(
-      {this.$id,
-      this.$databaseId,
-      this.$collectionId,
-      this.$createdAt,
-      this.$updatedAt,
-      final List<String>? $permissions,
+      {required this.uuid,
+      required this.createdAt,
       required this.address,
-      this.type = MailType.active})
-      : _$permissions = $permissions;
+      this.type = MailType.active,
+      this.reason});
 
   factory _$ETVMailImpl.fromJson(Map<String, dynamic> json) =>
       _$$ETVMailImplFromJson(json);
 
   @override
-  final String? $id;
+  final String uuid;
   @override
-  final String? $databaseId;
-  @override
-  final String? $collectionId;
-  @override
-  final String? $createdAt;
-  @override
-  final String? $updatedAt;
-  final List<String>? _$permissions;
-  @override
-  List<String>? get $permissions {
-    final value = _$permissions;
-    if (value == null) return null;
-    if (_$permissions is EqualUnmodifiableListView) return _$permissions;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final DateTime createdAt;
   @override
   final String address;
   @override
   @JsonKey()
   final MailType type;
+  @override
+  final String? reason;
 
   @override
   String toString() {
-    return 'ETVMail(\$id: ${$id}, \$databaseId: ${$databaseId}, \$collectionId: ${$collectionId}, \$createdAt: ${$createdAt}, \$updatedAt: ${$updatedAt}, \$permissions: ${$permissions}, address: $address, type: $type)';
+    return 'ETVMail(uuid: $uuid, createdAt: $createdAt, address: $address, type: $type, reason: $reason)';
   }
 
   @override
@@ -237,33 +180,18 @@ class _$ETVMailImpl implements _ETVMail {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ETVMailImpl &&
-            (identical(other.$id, $id) || other.$id == $id) &&
-            (identical(other.$databaseId, $databaseId) ||
-                other.$databaseId == $databaseId) &&
-            (identical(other.$collectionId, $collectionId) ||
-                other.$collectionId == $collectionId) &&
-            (identical(other.$createdAt, $createdAt) ||
-                other.$createdAt == $createdAt) &&
-            (identical(other.$updatedAt, $updatedAt) ||
-                other.$updatedAt == $updatedAt) &&
-            const DeepCollectionEquality()
-                .equals(other._$permissions, _$permissions) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.address, address) || other.address == address) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.reason, reason) || other.reason == reason));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      $id,
-      $databaseId,
-      $collectionId,
-      $createdAt,
-      $updatedAt,
-      const DeepCollectionEquality().hash(_$permissions),
-      address,
-      type);
+  int get hashCode =>
+      Object.hash(runtimeType, uuid, createdAt, address, type, reason);
 
   @JsonKey(ignore: true)
   @override
@@ -281,33 +209,24 @@ class _$ETVMailImpl implements _ETVMail {
 
 abstract class _ETVMail implements ETVMail {
   factory _ETVMail(
-      {final String? $id,
-      final String? $databaseId,
-      final String? $collectionId,
-      final String? $createdAt,
-      final String? $updatedAt,
-      final List<String>? $permissions,
+      {required final String uuid,
+      required final DateTime createdAt,
       required final String address,
-      final MailType type}) = _$ETVMailImpl;
+      final MailType type,
+      final String? reason}) = _$ETVMailImpl;
 
   factory _ETVMail.fromJson(Map<String, dynamic> json) = _$ETVMailImpl.fromJson;
 
   @override
-  String? get $id;
+  String get uuid;
   @override
-  String? get $databaseId;
-  @override
-  String? get $collectionId;
-  @override
-  String? get $createdAt;
-  @override
-  String? get $updatedAt;
-  @override
-  List<String>? get $permissions;
+  DateTime get createdAt;
   @override
   String get address;
   @override
   MailType get type;
+  @override
+  String? get reason;
   @override
   @JsonKey(ignore: true)
   _$$ETVMailImplCopyWith<_$ETVMailImpl> get copyWith =>

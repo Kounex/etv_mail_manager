@@ -32,7 +32,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
       check: (text) =>
           ValidationUtils.email(text) ??
           (ETVMailService().mails.value.value!.any((existingMail) =>
-                  existingMail.$id != this.widget.mail.$id &&
+                  existingMail.uuid != this.widget.mail.uuid &&
                   existingMail.address == (text ?? '').toLowerCase().trim())
               ? 'Email exists!'
               : null),
@@ -61,7 +61,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
             'Are you sure you want to delete this mail? You will need to go through the import procedure again to get it back!',
         isYesDestructive: true,
         onYes: (_) => ETVMailService()
-            .delete(this.widget.mail.$id!)
+            .delete(this.widget.mail.uuid)
             .then((_) => Navigator.of(context).pop()),
       ),
     );

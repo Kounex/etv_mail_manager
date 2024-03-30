@@ -30,7 +30,7 @@ class _MailBoxState extends State<MailBox> {
 
     _controller = CustomValidationTextEditingController()
       ..addListener(() {
-        if (mounted) {
+        if (this.mounted) {
           setState(() {});
         }
       });

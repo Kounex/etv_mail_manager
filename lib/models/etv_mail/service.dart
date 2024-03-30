@@ -63,7 +63,7 @@ class ETVMailService implements ModelClient<ETVMail> {
     try {
       final result = await _client.update<ETVMail>(
         _table,
-        mail.$id!,
+        mail.uuid,
         mail.toJson()..removeWhere((key, value) => key.startsWith('\$')),
         ETVMail.fromJson,
       );
@@ -124,7 +124,7 @@ class ETVMailService implements ModelClient<ETVMail> {
         List.from(
           mailsToUpdate.map(
             (mail) => MapEntry(
-              mail.$id,
+              mail.uuid,
               mail.toJson()..removeWhere((key, value) => key.startsWith('\$')),
             ),
           ),
@@ -147,7 +147,7 @@ class ETVMailService implements ModelClient<ETVMail> {
         _table,
         List.from(
           List.from(
-            mailsToDelete.map((mail) => mail.$id),
+            mailsToDelete.map((mail) => mail.uuid),
           ),
         ),
       );

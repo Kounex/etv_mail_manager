@@ -49,6 +49,7 @@ class _CommonCardChildWrapperState extends State<CommonCardChildWrapper> {
                 ),
               )
             : ListView.separated(
+                shrinkWrap: true,
                 clipBehavior: Clip.hardEdge,
                 padding: EdgeInsets.only(
                   right: this.widget.paddingForScrollbar

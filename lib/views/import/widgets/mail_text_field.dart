@@ -47,7 +47,7 @@ class _MailTextFieldState extends State<MailTextField> {
       List<String> mails = _controller.text.split(RegExp(r'[,;\t\n\r ]'));
 
       ImportSignals().validatedMails.value = Set.from(
-        mails.map((mail) => ETVMail(address: mail)),
+        mails.map((mail) => ETVMail.data(address: mail)),
       );
     }
   }

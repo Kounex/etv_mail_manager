@@ -8,29 +8,21 @@ part of 'etv_mail.dart';
 
 _$ETVMailImpl _$$ETVMailImplFromJson(Map<String, dynamic> json) =>
     _$ETVMailImpl(
-      $id: json[r'$id'] as String?,
-      $databaseId: json[r'$databaseId'] as String?,
-      $collectionId: json[r'$collectionId'] as String?,
-      $createdAt: json[r'$createdAt'] as String?,
-      $updatedAt: json[r'$updatedAt'] as String?,
-      $permissions: (json[r'$permissions'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      uuid: json['uuid'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
       address: json['address'] as String,
       type: $enumDecodeNullable(_$MailTypeEnumMap, json['type']) ??
           MailType.active,
+      reason: json['reason'] as String?,
     );
 
 Map<String, dynamic> _$$ETVMailImplToJson(_$ETVMailImpl instance) =>
     <String, dynamic>{
-      r'$id': instance.$id,
-      r'$databaseId': instance.$databaseId,
-      r'$collectionId': instance.$collectionId,
-      r'$createdAt': instance.$createdAt,
-      r'$updatedAt': instance.$updatedAt,
-      r'$permissions': instance.$permissions,
+      'uuid': instance.uuid,
+      'createdAt': instance.createdAt.toIso8601String(),
       'address': instance.address,
       'type': _$MailTypeEnumMap[instance.type]!,
+      'reason': instance.reason,
     };
 
 const _$MailTypeEnumMap = {
