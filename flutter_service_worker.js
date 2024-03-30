@@ -3,8 +3,8 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"index.html": "53a463484b1011e63d91b98bc2f2b28b",
-"/": "53a463484b1011e63d91b98bc2f2b28b",
+const RESOURCES = {"index.html": "3f0a17a5918967c6495cf238b3cf5568",
+"/": "3f0a17a5918967c6495cf238b3cf5568",
 "canvaskit/canvaskit.js": "c86fbd9e7b17accae76e5ad116583dc4",
 "canvaskit/skwasm.js": "445e9e400085faead4493be2224d95aa",
 "canvaskit/skwasm.wasm": "e42815763c5d05bba43f9d0337fa7d84",
@@ -33,7 +33,7 @@ const RESOURCES = {"index.html": "53a463484b1011e63d91b98bc2f2b28b",
 "manifest.json": "5572f5655a6fc656b1996fd9f53ed77c",
 "flutter.js": "c71a09214cb6f5f8996a531350400a9a",
 "auth.html": "7f93710517dd701b0355a89ea3e4b129",
-"main.dart.js": "662aa0d34a772984511de05fbae344f9"};
+"main.dart.js": "857df43d061dfcb70c4c21d0f730b947"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
