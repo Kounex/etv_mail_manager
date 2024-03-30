@@ -17,7 +17,8 @@ class MailBoxEditDialog extends StatefulWidget {
 }
 
 class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
-  late final CustomValidationTextEditingController _controller;
+  late final CustomValidationTextEditingController _email;
+  late final CustomValidationTextEditingController _reason;
 
   MailType? _type;
 
@@ -27,7 +28,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
 
     _type = this.widget.mail.type;
 
-    _controller = CustomValidationTextEditingController(
+    _email = CustomValidationTextEditingController(
       text: this.widget.mail.address,
       check: (text) =>
           ValidationUtils.email(text) ??
@@ -37,15 +38,19 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
               ? 'Email exists!'
               : null),
     );
+
+    _reason =
+        CustomValidationTextEditingController(text: this.widget.mail.reason);
   }
 
   void _handleSave() {
-    if (_controller.isValid) {
+    if (_email.isValid) {
       ETVMailService()
           .update(
             this.widget.mail.copyWith(
-                  address: _controller.text.toLowerCase().trim(),
+                  address: _email.text.toLowerCase().trim(),
                   type: _type!,
+                  reason: _reason.text.trim(),
                 ),
           )
           .then((_) => Navigator.of(context).pop());
@@ -94,7 +99,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
           const Text('Make sure to press "Save" to persist your changes.'),
           SizedBox(height: DesignSystem.spacing.x24),
           BaseAdaptiveTextField(
-            controller: _controller,
+            controller: _email,
             platform: TargetPlatform.iOS,
             clearButton: true,
           ),
@@ -130,6 +135,18 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
                 color: _type!.color,
               ),
             ],
+          ),
+          SizedBox(height: DesignSystem.spacing.x12),
+          SizedBox(
+            height: DesignSystem.size.x92,
+            child: BaseAdaptiveTextField(
+              controller: _reason,
+              platform: TargetPlatform.iOS,
+              placeholder: 'Reasoning...',
+              expands: true,
+              keyboardType: TextInputType.multiline,
+              textAlignVertical: TextAlignVertical.top,
+            ),
           ),
         ],
       ),

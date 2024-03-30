@@ -106,15 +106,10 @@ class _LoginFormState extends State<LoginForm> {
                         SizedBox(
                           width: double.infinity,
                           child: BaseButton(
-                            onPressed: asyncSession.connectionState ==
-                                    ConnectionState.waiting
-                                ? null
-                                : _signIn,
+                            onPressed: _signIn,
                             text: 'Login',
-                            child: asyncSession.connectionState ==
-                                    ConnectionState.waiting
-                                ? BaseProgressIndicator()
-                                : null,
+                            loading: asyncSession.connectionState ==
+                                ConnectionState.waiting,
                           ),
                         ),
                         SizedBox(height: DesignSystem.spacing.x12),
