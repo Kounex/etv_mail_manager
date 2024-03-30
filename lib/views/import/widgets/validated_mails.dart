@@ -129,7 +129,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
               children: [
                 const QuestionMarkTooltip(
                     message:
-                        'When importing validated emails, the algorithm in the background will check for existing emails and only import new ones.'),
+                        'When validating emails, the algorithm in the background will check for existing emails and only add new ones. Existing emails will be highlighted in the box.'),
                 SizedBox(width: DesignSystem.spacing.x12),
                 SizedBox(
                   width: DesignSystem.size.x128,
