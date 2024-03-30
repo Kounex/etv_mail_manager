@@ -15,27 +15,54 @@ class ValidatedMails extends StatefulWidget {
 }
 
 class _ValidatedMailsState extends State<ValidatedMails> {
-  void _importMails() {
-    List<ETVMail> createMails = [];
-    for (final mail in ImportSignals().validatedMails.value) {
-      if (ETVMailService().mails.value.value == null ||
-          !ETVMailService()
-              .mails
-              .value
-              .value!
-              .any((existingMail) => existingMail.address == mail.address)) {
-        createMails.add(mail);
-      }
-    }
+  bool _mailIsNew(ETVMail mail) =>
+      ETVMailService().mails.value.value == null ||
+      !ETVMailService()
+          .mails
+          .value
+          .value!
+          .any((existingMail) => existingMail.address == mail.address);
 
-    ETVMailService().createBulk(createMails);
+  void _importMails() {
+    ModalUtils.showBaseDialog(
+      context,
+      ConfirmationDialog(
+        title: 'Import Emails',
+        body: 'Are you sure you want to import the validated emails?',
+        onYes: (_) {
+          List<ETVMail> mailsToCreate = [];
+          for (final mail in ImportSignals().validatedMails.value) {
+            if (_mailIsNew(mail)) {
+              mailsToCreate.add(mail);
+            }
+          }
+
+          if (mailsToCreate.isNotEmpty) {
+            ETVMailService().createBulk(mailsToCreate).then((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    '${mailsToCreate.length} mail${mailsToCreate.length > 1 ? "s" : ""} imported!',
+                  ),
+                ),
+              );
+            });
+          }
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseConstrainedBox(
-      child: Watch(
-        (context) => Column(
+      child: Watch((context) {
+        Iterable<ETVMail> importableMails = ImportSignals()
+            .validatedMails
+            .value
+            .where((mail) => _mailIsNew(mail));
+
+        return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -55,7 +82,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                             horizontal: DesignSystem.spacing.x18,
                           ),
                           child: Text(
-                            '${ImportSignals().validatedMails.value.length} mail${ImportSignals().validatedMails.value.length == 1 ? "" : "s"} ready to be imported',
+                            '${importableMails.length} mail${importableMails.length == 1 ? "" : "s"} ready to be imported',
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
@@ -70,6 +97,15 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                                 ImportSignals().validatedMails.value.map(
                                       (mail) => Chip(
                                         label: Text(mail.address),
+                                        backgroundColor: !_mailIsNew(mail)
+                                            ? Colors.red[100]
+                                            : null,
+                                        labelStyle: !_mailIsNew(mail)
+                                            ? const TextStyle(
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                              )
+                                            : null,
                                       ),
                                     ),
                               ),
@@ -98,17 +134,15 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                 SizedBox(
                   width: DesignSystem.size.x128,
                   child: BaseButton(
-                    onPressed: ImportSignals().validatedMails.isNotEmpty
-                        ? _importMails
-                        : null,
+                    onPressed: importableMails.isNotEmpty ? _importMails : null,
                     text: 'Import',
                   ),
                 ),
               ],
             ),
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }

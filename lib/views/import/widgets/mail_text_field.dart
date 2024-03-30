@@ -22,33 +22,44 @@ class _MailTextFieldState extends State<MailTextField> {
 
     _controller = CustomValidationTextEditingController(check: (text) {
       ImportSignals().wrongMails.clear();
-      List<String>? potentialMails = text?.split(RegExp(r'[,;\t\n\r ]'));
+      Set<String>? potentialMails = _extractPotentialEmails(text);
 
-      Set<String>? errors = potentialMails
-          ?.map((mail) {
-            String? error = ValidationUtils.email(mail);
-            if (mail.isNotEmpty && error != null) {
-              ImportSignals().wrongMails.add(mail);
-            }
-            return error;
-          })
-          .whereType<String>()
-          .toSet();
+      Set<String> errors = potentialMails != null && potentialMails.isNotEmpty
+          ? potentialMails
+              .map((mail) {
+                String? error = ValidationUtils.email(mail);
+                if (mail.isNotEmpty && error != null) {
+                  ImportSignals().wrongMails.add(mail);
+                }
+                return error;
+              })
+              .whereType<String>()
+              .toSet()
+          : {
+              ValidationUtils.email('')!,
+            };
 
-      if (errors != null && errors.isNotEmpty) {
+      if (errors.isNotEmpty) {
         return errors.join('\n');
       }
       return null;
     });
   }
 
+  Set<String>? _extractPotentialEmails(String? text) => text
+      ?.split(RegExp(r'[,;\t\n\r ]'))
+      .where((potentialMail) => potentialMail.trim().isNotEmpty)
+      .toSet();
+
   void _validateImport() {
     if (_controller.isValid) {
-      List<String> mails = _controller.text.split(RegExp(r'[,;\t\n\r ]'));
+      Set<String>? mails = _extractPotentialEmails(_controller.text);
 
-      ImportSignals().validatedMails.value = Set.from(
-        mails.map((mail) => ETVMail.data(address: mail)),
-      );
+      if (mails != null && mails.isNotEmpty) {
+        ImportSignals().validatedMails.value = Set.from(
+          mails.map((mail) => ETVMail.data(address: mail.trim())),
+        );
+      }
     }
   }
 
