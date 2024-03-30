@@ -50281,7 +50281,7 @@ A.Qb.prototype={
 D(a){var s=null
 return A.fU(s,B.Ic,B.ab,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.ahu(this,a),s,s,s,s,s,s)}}
 A.ahu.prototype={
-$0(){return A.C9(this.b,new A.O8("When importing validated emails, the algorithm in the background will check for existing emails and only import new ones.",null),t.z)},
+$0(){return A.C9(this.b,new A.O8("When validating emails, the algorithm in the background will check for existing emails and only add new ones. Existing emails will be highlighted in the box.",null),t.z)},
 $S:0}
 A.Se.prototype={
 D(a){var s,r,q=null,p=A.aGj(a,this.c)
