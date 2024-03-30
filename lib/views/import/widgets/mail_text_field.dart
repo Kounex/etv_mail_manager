@@ -72,7 +72,7 @@ class _MailTextFieldState extends State<MailTextField> {
           SizedBox(height: DesignSystem.spacing.x12),
           SizedBox(
             height: DesignSystem.size.x256,
-            child: KeyboardNumberHeader(
+            child: BaseKeyboardHeader(
               focusNode: _focusNode,
               child: BaseAdaptiveTextField(
                 controller: _controller,

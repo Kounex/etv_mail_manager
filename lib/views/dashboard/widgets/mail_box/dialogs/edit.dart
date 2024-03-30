@@ -20,6 +20,8 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
   late final CustomValidationTextEditingController _email;
   late final CustomValidationTextEditingController _reason;
 
+  final FocusNode _focusNode = FocusNode();
+
   MailType? _type;
 
   @override
@@ -140,13 +142,17 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
           SizedBox(height: DesignSystem.spacing.x12),
           SizedBox(
             height: DesignSystem.size.x92,
-            child: BaseAdaptiveTextField(
-              controller: _reason,
-              platform: TargetPlatform.iOS,
-              placeholder: 'Reasoning...',
-              expands: true,
-              keyboardType: TextInputType.multiline,
-              textAlignVertical: TextAlignVertical.top,
+            child: BaseKeyboardHeader(
+              focusNode: _focusNode,
+              child: BaseAdaptiveTextField(
+                controller: _reason,
+                focusNode: _focusNode,
+                platform: TargetPlatform.iOS,
+                placeholder: 'Reasoning...',
+                expands: true,
+                keyboardType: TextInputType.multiline,
+                textAlignVertical: TextAlignVertical.top,
+              ),
             ),
           ),
         ],
