@@ -77,7 +77,8 @@ class _LoginFormState extends State<LoginForm> {
                   controller: _email,
                   platform: TargetPlatform.iOS,
                   scrollPadding: EdgeInsets.all(
-                      DesignSystem.spacing.x192 + DesignSystem.spacing.x32),
+                    DesignSystem.spacing.x192 + DesignSystem.spacing.x16,
+                  ),
                   clearButton: true,
                   placeholder: 'Email',
                   errorPaddingAlways: true,
@@ -88,7 +89,8 @@ class _LoginFormState extends State<LoginForm> {
                   controller: _pw,
                   platform: TargetPlatform.iOS,
                   scrollPadding: EdgeInsets.all(
-                      DesignSystem.spacing.x128 + DesignSystem.spacing.x18),
+                    DesignSystem.spacing.x128 + DesignSystem.spacing.x18,
+                  ),
                   clearButton: true,
                   placeholder: 'Password',
                   errorPaddingAlways: true,
