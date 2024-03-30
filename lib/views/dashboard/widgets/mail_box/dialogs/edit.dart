@@ -102,6 +102,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
             controller: _email,
             platform: TargetPlatform.iOS,
             clearButton: true,
+            keyboardType: TextInputType.emailAddress,
           ),
           SizedBox(height: DesignSystem.spacing.x12),
           Row(

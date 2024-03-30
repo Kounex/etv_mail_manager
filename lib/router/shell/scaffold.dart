@@ -37,7 +37,7 @@ class _ShellScaffoldState extends State<ShellScaffold> {
           this.widget.child,
           const ETVBanner(),
           Positioned(
-            top: DesignSystem.spacing.x12 + MediaQuery.paddingOf(context).top,
+            top: DesignSystem.spacing.x18 + MediaQuery.paddingOf(context).top,
             left: DesignSystem.spacing.x12,
             child: const Card(
               child: DrawerButton(),

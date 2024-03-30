@@ -60,7 +60,7 @@ class MailBoxTitle extends StatelessWidget {
           Row(
             children: [
               BaseProgressIndicator(
-                size: DesignSystem.size.x24,
+                size: DesignSystem.size.x18,
               ),
               SizedBox(width: DesignSystem.spacing.x12),
               const Text('Fetching...'),

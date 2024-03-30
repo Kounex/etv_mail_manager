@@ -82,6 +82,7 @@ class _LoginFormState extends State<LoginForm> {
                   clearButton: true,
                   placeholder: 'Email',
                   errorPaddingAlways: true,
+                  keyboardType: TextInputType.emailAddress,
                   onSubmitted: (_) => _signIn(),
                 ),
                 SizedBox(height: DesignSystem.spacing.x4),

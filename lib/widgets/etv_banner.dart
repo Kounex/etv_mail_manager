@@ -27,7 +27,7 @@ class ETVBanner extends StatelessWidget {
             color: ThemeUtils.etvColor,
             child: Image.asset(
               'assets/images/etv-logo.png',
-              height: DesignSystem.size.x64,
+              height: DesignSystem.size.x64 + DesignSystem.size.x8,
             ),
           ),
         ),
