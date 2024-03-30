@@ -21,13 +21,13 @@ class ETVBanner extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: MediaQuery.paddingOf(context).top,
+          top: DesignSystem.size.x4 + MediaQuery.paddingOf(context).top,
           right: DesignSystem.spacing.x32,
           child: Container(
             color: ThemeUtils.etvColor,
             child: Image.asset(
               'assets/images/etv-logo.png',
-              height: DesignSystem.size.x64 + DesignSystem.size.x8,
+              height: DesignSystem.size.x64 + DesignSystem.size.x4,
             ),
           ),
         ),

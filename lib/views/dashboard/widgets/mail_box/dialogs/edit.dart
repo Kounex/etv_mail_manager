@@ -148,6 +148,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
                 controller: _reason,
                 focusNode: _focusNode,
                 platform: TargetPlatform.iOS,
+                scrollPadding: EdgeInsets.all(DesignSystem.spacing.x128),
                 placeholder: 'Reasoning...',
                 expands: true,
                 keyboardType: TextInputType.multiline,

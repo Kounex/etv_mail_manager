@@ -49,6 +49,7 @@ class _CommonCardChildWrapperState extends State<CommonCardChildWrapper> {
                 ),
               )
             : ListView.separated(
+                controller: _controller,
                 shrinkWrap: true,
                 clipBehavior: Clip.hardEdge,
                 padding: EdgeInsets.only(
