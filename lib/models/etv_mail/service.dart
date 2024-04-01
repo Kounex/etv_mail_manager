@@ -15,12 +15,14 @@ class ETVMailService implements ModelClient<ETVMail> {
   final mailAddOrEdit = asyncSignal<ETVMail?>(AsyncState.data(null));
   final mailDelete = asyncSignal<ETVMail?>(AsyncState.data(null));
 
-  late final mails = futureSignal(() => getAll(), autoDispose: false);
+  late final FutureSignal<List<ETVMail>?> mails;
   final mailCreateBulk = asyncSignal<List<ETVMail?>?>(AsyncState.data(null));
   final mailUpdateBulk = asyncSignal<List<ETVMail?>?>(AsyncState.data(null));
   final mailDeleteBulk = asyncSignal<List<ETVMail?>?>(AsyncState.data(null));
 
-  ETVMailService._();
+  ETVMailService._() {
+    mails = futureSignal(() => getAll(), autoDispose: false);
+  }
 
   factory ETVMailService() => _instance ??= ETVMailService._();
 
