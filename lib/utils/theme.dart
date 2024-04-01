@@ -2,7 +2,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 class ThemeUtils {
-  static const Color etvColor = Color.fromARGB(255, 220, 20, 10);
+  static final Color etvColor = 'db0d15'.toColor;
 
   static ThemeData etvFlexTheme = FlexThemeData.light(
     platform: TargetPlatform.android,

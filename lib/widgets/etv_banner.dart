@@ -16,7 +16,7 @@ class ETVBanner extends StatelessWidget {
         Container(
           height: DesignSystem.size.x8 + MediaQuery.paddingOf(context).top,
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: ThemeUtils.etvColor,
           ),
         ),
