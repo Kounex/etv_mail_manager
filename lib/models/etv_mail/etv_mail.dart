@@ -57,6 +57,7 @@ enum MailType {
 enum CommonReason {
   spam,
   notFound,
+  full,
   leftETV,
   leftBadminton,
   notInterested,
@@ -68,6 +69,7 @@ enum CommonReason {
           MailType.unreachable => [
               CommonReason.spam,
               CommonReason.notFound,
+              CommonReason.full,
             ],
           MailType.removed => [
               CommonReason.leftETV,
@@ -83,6 +85,7 @@ enum CommonReason {
   String get text => switch (this) {
         CommonReason.spam => 'Suspected as spam',
         CommonReason.notFound => 'Not found',
+        CommonReason.full => 'Inbox full',
         CommonReason.leftETV => 'Left ETV',
         CommonReason.leftBadminton => 'Left Badminton',
         CommonReason.notInterested => 'Not interested in such mails',
