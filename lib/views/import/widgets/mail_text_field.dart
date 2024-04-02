@@ -22,33 +22,26 @@ class _MailTextFieldState extends State<MailTextField> {
 
     _controller = CustomValidationTextEditingController(check: (text) {
       ImportSignals().wrongMails.clear();
+
+      if (text == null || text.trim().isEmpty) {
+        return 'Field is required!';
+      }
+
       Set<String>? potentialMails = _extractPotentialEmails(text);
 
-      Set<String> errors = potentialMails != null && potentialMails.isNotEmpty
-          ? potentialMails
-              .map((mail) {
-                String? error = ValidationUtils.email(mail);
-                if (mail.isNotEmpty && error != null) {
-                  ImportSignals().wrongMails.add(mail);
-                }
-                return error;
-              })
-              .whereType<String>()
-              .toSet()
-          : {
-              ValidationUtils.email('')!,
-            };
-
-      if (errors.isNotEmpty) {
-        return errors.join('\n');
+      if (potentialMails == null || potentialMails.isEmpty) {
+        return 'Not possible to extract any email from the provided text. Make sure there are correct email addresses included and you follow the spec as mentioned above!';
       }
+
       return null;
     });
   }
 
   Set<String>? _extractPotentialEmails(String? text) => text
-      ?.split(RegExp(r'[,;\t\n\r ]'))
-      .where((potentialMail) => potentialMail.trim().isNotEmpty)
+      ?.split(RegExp(r'[,;<>\t\n\r ]'))
+      .where((potentialMail) =>
+          potentialMail.trim().isNotEmpty &&
+          ValidationUtils.email(potentialMail) == null)
       .toSet();
 
   void _validateImport() {
