@@ -1,4 +1,5 @@
 import 'package:base_components/base_components.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/etv_mail/etv_mail.dart';
@@ -42,6 +43,13 @@ class MailBoxContent extends StatelessWidget {
                             MailBoxEditDialog(mail: mail),
                           ),
                           title: Text(mail.address),
+                          trailing: mail.reason != null &&
+                                  mail.reason!.isNotEmpty
+                              ? Tooltip(
+                                  message: mail.reason,
+                                  child: const Icon(CupertinoIcons.text_bubble),
+                                )
+                              : null,
                         ),
                       ),
                 )
