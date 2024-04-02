@@ -1,8 +1,11 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/models/etv_mail/etv_mail.dart';
 import 'package:etv_mail_manager/models/etv_mail/service.dart';
+import 'package:etv_mail_manager/views/dashboard/widgets/mail_box/dialogs/mail_type_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'common_reason_dropdown.dart';
 
 class MailBoxEditDialog extends StatefulWidget {
   final ETVMail mail;
@@ -22,13 +25,16 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
 
   final FocusNode _focusNode = FocusNode();
 
-  MailType? _type;
+  late MailType _type;
+
+  CommonReason? _commonReason;
 
   @override
   void initState() {
     super.initState();
 
     _type = this.widget.mail.type;
+    _commonReason = this.widget.mail.commonReason;
 
     _email = CustomValidationTextEditingController(
       text: this.widget.mail.address,
@@ -51,8 +57,11 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
           .update(
             this.widget.mail.copyWith(
                   address: _email.text.toLowerCase().trim(),
-                  type: _type!,
-                  reason: _reason.text.trim(),
+                  type: _type,
+                  commonReason: _commonReason,
+                  reason: _commonReason == CommonReason.other
+                      ? _reason.text.trim()
+                      : null,
                 ),
           )
           .then((_) => Navigator.of(context).pop());
@@ -107,54 +116,53 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
             keyboardType: TextInputType.emailAddress,
           ),
           SizedBox(height: DesignSystem.spacing.x12),
-          Row(
-            children: [
-              DropdownButton<MailType?>(
-                onChanged: (type) => setState(() => _type = type),
-                value: _type,
-                padding: const EdgeInsets.all(0),
-                selectedItemBuilder: (context) => List.from(
-                  MailType.values.map(
-                    (type) => Transform.translate(
-                      offset: Offset(-DesignSystem.spacing.x12, 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(type.name),
-                      ),
-                    ),
-                  ),
-                ),
-                items: List.from(
-                  MailType.values.map(
-                    (type) => DropdownMenuItem(
-                      value: type,
-                      child: Text(type.name),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: DesignSystem.spacing.x12),
-              StatusDot(
-                color: _type!.color,
-              ),
-            ],
+          MailTypeDropdown(
+            type: _type,
+            onChanged: (type) {
+              if (type != _type) {
+                setState(() {
+                  _commonReason = null;
+                  _type = type ?? MailType.active;
+                });
+              }
+            },
           ),
           SizedBox(height: DesignSystem.spacing.x12),
-          SizedBox(
-            height: DesignSystem.size.x92,
-            child: BaseKeyboardHeader(
-              focusNode: _focusNode,
-              child: BaseAdaptiveTextField(
-                controller: _reason,
-                focusNode: _focusNode,
-                platform: TargetPlatform.iOS,
-                scrollPadding: EdgeInsets.all(DesignSystem.spacing.x128),
-                placeholder: 'Reasoning...',
-                expands: true,
-                keyboardType: TextInputType.multiline,
-                textAlignVertical: TextAlignVertical.top,
-              ),
-            ),
+          CommonReasonDropdown(
+            onChanged: (commonReason) {
+              _reason.clear();
+              setState(() => _commonReason = commonReason);
+            },
+            onDelete: () => setState(() => _commonReason = null),
+            type: _type,
+            commonReason: _commonReason,
+          ),
+          SizedBox(height: DesignSystem.spacing.x12),
+          AnimatedSize(
+            duration: DesignSystem.animation.defaultDurationMS250,
+            curve: Curves.easeOutCirc,
+            child: _commonReason == CommonReason.other
+                ? SizedBox(
+                    key: const ValueKey(1),
+                    height: DesignSystem.size.x92,
+                    child: BaseKeyboardHeader(
+                      focusNode: _focusNode,
+                      child: BaseAdaptiveTextField(
+                        controller: _reason,
+                        focusNode: _focusNode,
+                        platform: TargetPlatform.iOS,
+                        scrollPadding:
+                            EdgeInsets.all(DesignSystem.spacing.x128),
+                        placeholder: 'Reasoning...',
+                        expands: true,
+                        keyboardType: TextInputType.multiline,
+                        textAlignVertical: TextAlignVertical.top,
+                      ),
+                    ),
+                  )
+                : const SizedBox(
+                    key: ValueKey(0),
+                  ),
           ),
         ],
       ),

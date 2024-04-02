@@ -43,10 +43,11 @@ class MailBoxContent extends StatelessWidget {
                             MailBoxEditDialog(mail: mail),
                           ),
                           title: Text(mail.address),
-                          trailing: mail.reason != null &&
-                                  mail.reason!.isNotEmpty
+                          trailing: mail.commonReason != null ||
+                                  mail.reason != null && mail.reason!.isNotEmpty
                               ? Tooltip(
-                                  message: mail.reason,
+                                  message:
+                                      mail.reason ?? mail.commonReason?.text,
                                   child: const Icon(CupertinoIcons.text_bubble),
                                 )
                               : null,

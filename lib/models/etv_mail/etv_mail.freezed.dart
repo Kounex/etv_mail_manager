@@ -24,6 +24,7 @@ mixin _$ETVMail {
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   MailType get type => throw _privateConstructorUsedError;
+  CommonReason? get commonReason => throw _privateConstructorUsedError;
   String? get reason => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $ETVMailCopyWith<$Res> {
       DateTime createdAt,
       String address,
       MailType type,
+      CommonReason? commonReason,
       String? reason});
 }
 
@@ -61,6 +63,7 @@ class _$ETVMailCopyWithImpl<$Res, $Val extends ETVMail>
     Object? createdAt = null,
     Object? address = null,
     Object? type = null,
+    Object? commonReason = freezed,
     Object? reason = freezed,
   }) {
     return _then(_value.copyWith(
@@ -80,6 +83,10 @@ class _$ETVMailCopyWithImpl<$Res, $Val extends ETVMail>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MailType,
+      commonReason: freezed == commonReason
+          ? _value.commonReason
+          : commonReason // ignore: cast_nullable_to_non_nullable
+              as CommonReason?,
       reason: freezed == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
@@ -100,6 +107,7 @@ abstract class _$$ETVMailImplCopyWith<$Res> implements $ETVMailCopyWith<$Res> {
       DateTime createdAt,
       String address,
       MailType type,
+      CommonReason? commonReason,
       String? reason});
 }
 
@@ -118,6 +126,7 @@ class __$$ETVMailImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? address = null,
     Object? type = null,
+    Object? commonReason = freezed,
     Object? reason = freezed,
   }) {
     return _then(_$ETVMailImpl(
@@ -137,6 +146,10 @@ class __$$ETVMailImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as MailType,
+      commonReason: freezed == commonReason
+          ? _value.commonReason
+          : commonReason // ignore: cast_nullable_to_non_nullable
+              as CommonReason?,
       reason: freezed == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
@@ -153,6 +166,7 @@ class _$ETVMailImpl implements _ETVMail {
       required this.createdAt,
       required this.address,
       this.type = MailType.active,
+      this.commonReason,
       this.reason});
 
   factory _$ETVMailImpl.fromJson(Map<String, dynamic> json) =>
@@ -168,11 +182,13 @@ class _$ETVMailImpl implements _ETVMail {
   @JsonKey()
   final MailType type;
   @override
+  final CommonReason? commonReason;
+  @override
   final String? reason;
 
   @override
   String toString() {
-    return 'ETVMail(uuid: $uuid, createdAt: $createdAt, address: $address, type: $type, reason: $reason)';
+    return 'ETVMail(uuid: $uuid, createdAt: $createdAt, address: $address, type: $type, commonReason: $commonReason, reason: $reason)';
   }
 
   @override
@@ -185,13 +201,15 @@ class _$ETVMailImpl implements _ETVMail {
                 other.createdAt == createdAt) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.commonReason, commonReason) ||
+                other.commonReason == commonReason) &&
             (identical(other.reason, reason) || other.reason == reason));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uuid, createdAt, address, type, reason);
+  int get hashCode => Object.hash(
+      runtimeType, uuid, createdAt, address, type, commonReason, reason);
 
   @JsonKey(ignore: true)
   @override
@@ -213,6 +231,7 @@ abstract class _ETVMail implements ETVMail {
       required final DateTime createdAt,
       required final String address,
       final MailType type,
+      final CommonReason? commonReason,
       final String? reason}) = _$ETVMailImpl;
 
   factory _ETVMail.fromJson(Map<String, dynamic> json) = _$ETVMailImpl.fromJson;
@@ -225,6 +244,8 @@ abstract class _ETVMail implements ETVMail {
   String get address;
   @override
   MailType get type;
+  @override
+  CommonReason? get commonReason;
   @override
   String? get reason;
   @override
