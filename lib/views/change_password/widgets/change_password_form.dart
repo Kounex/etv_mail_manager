@@ -1,0 +1,126 @@
+import 'dart:async';
+
+import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/utils/supabase/client.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class ChangePasswordForm extends StatefulWidget {
+  const ChangePasswordForm({super.key});
+
+  @override
+  State<ChangePasswordForm> createState() => _ChangePasswordFormState();
+}
+
+class _ChangePasswordFormState extends State<ChangePasswordForm> {
+  final PasswordType _type = PasswordType.digitLetter;
+
+  late final CustomValidationTextEditingController _pw;
+  late final CustomValidationTextEditingController _pwCheck;
+
+  Future<UserResponse>? _userResponse;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pw = CustomValidationTextEditingController(
+        check: (text) => ValidationUtils.password(text, _type));
+    _pwCheck = CustomValidationTextEditingController(
+        check: (text) =>
+            ValidationUtils.password(text, _type) ??
+            (text!.trim() != _pw.text.trim()
+                ? 'Passwords need to match!'
+                : null));
+  }
+
+  void _handleUpdatePassword() {
+    bool pwValid = _pw.isValid;
+    bool pwCheckValid = _pwCheck.isValid;
+    if (pwValid && pwCheckValid) {
+      setState(() {
+        _userResponse = BaseSupabaseClient().changePassword(_pw.text.trim());
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      child: SizedBox(
+        width: DesignSystem.size.x512,
+        child: BaseCard(
+          title: 'Change Password',
+          paintBorder: true,
+          borderColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
+          child: FocusTraversalGroup(
+            policy: WidgetOrderTraversalPolicy(),
+            child: Column(
+              children: [
+                BaseAdaptiveTextField(
+                  controller: _pw,
+                  platform: TargetPlatform.iOS,
+                  scrollPadding: EdgeInsets.all(
+                    DesignSystem.spacing.x192 + DesignSystem.spacing.x16,
+                  ),
+                  clearButton: true,
+                  placeholder: 'Password',
+                  errorPaddingAlways: true,
+                  onSubmitted: (_) {},
+                ),
+                SizedBox(height: DesignSystem.spacing.x12),
+                BaseAdaptiveTextField(
+                  controller: _pwCheck,
+                  platform: TargetPlatform.iOS,
+                  scrollPadding: EdgeInsets.all(
+                    DesignSystem.spacing.x192 + DesignSystem.spacing.x16,
+                  ),
+                  clearButton: true,
+                  placeholder: 'Password again',
+                  errorPaddingAlways: true,
+                  onSubmitted: (_) {},
+                ),
+                SizedBox(height: DesignSystem.spacing.x24),
+                FutureBuilder<UserResponse>(
+                  future: _userResponse,
+                  builder: (context, asyncSession) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: BaseButton(
+                            onPressed: _handleUpdatePassword,
+                            text: 'Update Password',
+                            loading: asyncSession.connectionState ==
+                                ConnectionState.waiting,
+                          ),
+                        ),
+                        SizedBox(height: DesignSystem.spacing.x12),
+                        AnimatedContainer(
+                          duration: DesignSystem.animation.defaultDurationMS250,
+                          child: asyncSession.hasError
+                              ? const Fader(
+                                  child: Text(
+                                    'Something went wrong! Try the reset password process again from the beginning!',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: CupertinoColors.destructiveRed,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

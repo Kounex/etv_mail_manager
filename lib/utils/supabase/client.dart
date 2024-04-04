@@ -20,12 +20,19 @@ class BaseSupabaseClient {
 
   Future<Session?> signInWithEmail(String email, String pw) async {
     final result = await Supabase.instance.client.auth.signInWithPassword(
-      password: pw,
       email: email,
+      password: pw,
     );
 
     return result.session;
   }
+
+  Future<void> resetPasswordForEmail(String email) =>
+      Supabase.instance.client.auth.resetPasswordForEmail(email);
+
+  Future<UserResponse> changePassword(String password) =>
+      Supabase.instance.client.auth
+          .updateUser(UserAttributes(password: password));
 
   Future<void> signOut() => Supabase.instance.client.auth.signOut();
 

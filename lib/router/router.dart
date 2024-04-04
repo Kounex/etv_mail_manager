@@ -17,13 +17,22 @@ class BaseAppRouter {
   BaseAppRouter._() {
     router = GoRouter(
       navigatorKey: _rootKey,
-      initialLocation: PreAppRoutes.login.path,
-      redirect: (context, state) {
-        final session = BaseSupabaseClient().session();
-        if (session != null && !session.isExpired) {
-          return state.uri.path;
+      initialLocation: PreAppRoutes.login.fullPath,
+      redirect: (context, state) async {
+        // try {
+        //   final authState = await BaseSupabaseClient().authStream().last;
+
+        //   if (authState.event == AuthChangeEvent.passwordRecovery) {}
+        // } catch (_) {}
+
+        if (AppRoutes.values.any((route) => route.fullPath == state.fullPath)) {
+          final session = BaseSupabaseClient().session();
+          if (session != null && !session.isExpired) {
+            return state.uri.path;
+          }
+          return PreAppRoutes.login.fullPath;
         }
-        return PreAppRoutes.login.path;
+        return null;
       },
       refreshListenable: ListenableFromStream(
         BaseSupabaseClient().authStream(),
@@ -50,23 +59,25 @@ class BaseAppRouter {
   factory BaseAppRouter() => _instance ??= BaseAppRouter._();
 
   void navigateTo(BuildContext context, BaseRoute route) =>
-      context.go(route.path);
+      context.go(route.fullPath);
 
   List<RouteBase> _routes(List<BaseRoute> routes, {int level = 0}) {
     final routesForLevel =
-        routes.where((route) => route.path.split('/').length == level + 2);
+        routes.where((route) => route.fullPath.split('/').length == level + 2);
 
     return List.from(
       routesForLevel.map(
         (route) => GoRoute(
           parentNavigatorKey: route.fullscreen ? _shellKey : null,
-          path: '/${route.path.split('/').skip(level + 1).take(1).join('')}',
+          path:
+              '/${route.fullPath.split('/').skip(level + 1).take(1).join('')}',
           name: route.name,
           pageBuilder: (context, state) => _webPage(route),
           routes: _routes(
             List.from(
               routes.where((innerRoute) =>
-                  innerRoute.path.split('/')[1] == route.path.split('/')[1]),
+                  innerRoute.fullPath.split('/')[1] ==
+                  route.fullPath.split('/')[1]),
             ),
             level: level + 1,
           ),

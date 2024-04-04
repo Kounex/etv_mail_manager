@@ -8,19 +8,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class ForgotForm extends StatefulWidget {
+  const ForgotForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<ForgotForm> createState() => _ForgotFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _ForgotFormState extends State<ForgotForm> {
   late final CustomValidationTextEditingController _email;
-  late final CustomValidationTextEditingController _pw;
-
-  Future<Session?>? _session;
   late final StreamSubscription _authSubscriptions;
+
+  Future<void>? _emailSent;
 
   @override
   void initState() {
@@ -30,25 +29,20 @@ class _LoginFormState extends State<LoginForm> {
 
     _email =
         CustomValidationTextEditingController(check: ValidationUtils.email);
-    _pw = CustomValidationTextEditingController(check: ValidationUtils.name);
-  }
-
-  void _signIn() {
-    final emailValid = _email.isValid;
-    final pwValid = _pw.isValid;
-    if (emailValid && pwValid) {
-      setState(
-        () {
-          _session =
-              BaseSupabaseClient().signInWithEmail(_email.text, _pw.text);
-        },
-      );
-    }
   }
 
   void _authHandler(AuthState state) {
-    if (state.event == AuthChangeEvent.signedIn) {
-      BaseAppRouter().navigateTo(context, AppRoutes.dashboard);
+    if (state.event == AuthChangeEvent.passwordRecovery) {
+      BaseAppRouter().navigateTo(context, PreAppRoutes.changePassword);
+    }
+  }
+
+  void _handleReset() {
+    if (_email.isValid) {
+      setState(() {
+        _emailSent =
+            BaseSupabaseClient().resetPasswordForEmail(_email.text.trim());
+      });
     }
   }
 
@@ -65,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
       child: SizedBox(
         width: DesignSystem.size.x512,
         child: BaseCard(
-          title: 'ETV Mail Manager',
+          title: 'Forgot Password',
           paintBorder: true,
           borderColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
@@ -83,39 +77,26 @@ class _LoginFormState extends State<LoginForm> {
                   placeholder: 'Email',
                   errorPaddingAlways: true,
                   keyboardType: TextInputType.emailAddress,
-                  onSubmitted: (_) => _signIn(),
-                ),
-                SizedBox(height: DesignSystem.spacing.x4),
-                BaseAdaptiveTextField(
-                  controller: _pw,
-                  platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.all(
-                    DesignSystem.spacing.x128 + DesignSystem.spacing.x18,
-                  ),
-                  clearButton: true,
-                  placeholder: 'Password',
-                  errorPaddingAlways: true,
-                  obscureText: true,
-                  onSubmitted: (_) => _signIn(),
+                  onSubmitted: (_) {},
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text.rich(
                     TextSpan(
-                      text: 'I may need to ',
+                      text: 'I remember my password and ',
                       children: <InlineSpan>[
                         WidgetSpan(
                           alignment: PlaceholderAlignment.baseline,
                           baseline: TextBaseline.alphabetic,
                           child: InkWell(
                             onTap: () => BaseAppRouter()
-                                .navigateTo(context, PreAppRoutes.forgot),
+                                .navigateTo(context, PreAppRoutes.login),
                             hoverColor: Colors.transparent,
                             focusColor: Colors.transparent,
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             child: Text(
-                              'reset my password',
+                              'want to login',
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.secondary),
@@ -130,33 +111,44 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 SizedBox(height: DesignSystem.spacing.x24),
-                FutureBuilder<Session?>(
-                  future: _session,
-                  builder: (context, asyncSession) {
+                FutureBuilder<void>(
+                  future: _emailSent,
+                  builder: (context, asyncEmailSent) {
                     return Column(
                       children: [
                         SizedBox(
                           width: double.infinity,
                           child: BaseButton(
-                            onPressed: _signIn,
-                            text: 'Login',
-                            loading: asyncSession.connectionState ==
+                            onPressed: _handleReset,
+                            text: 'Reset Password',
+                            loading: asyncEmailSent.connectionState ==
                                 ConnectionState.waiting,
                           ),
                         ),
                         SizedBox(height: DesignSystem.spacing.x12),
                         AnimatedContainer(
                           duration: DesignSystem.animation.defaultDurationMS250,
-                          child: asyncSession.hasError
-                              ? const Fader(
-                                  child: Text(
-                                    'Email and Password combination does not exist!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: CupertinoColors.destructiveRed,
-                                    ),
-                                  ),
-                                )
+                          child: asyncEmailSent.connectionState ==
+                                  ConnectionState.done
+                              ? asyncEmailSent.hasError
+                                  ? const Fader(
+                                      child: Text(
+                                        'Not possible to request a password reset right now. Please try again later!',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: CupertinoColors.destructiveRed,
+                                        ),
+                                      ),
+                                    )
+                                  : const Fader(
+                                      child: Text(
+                                        'An email with instructions to reset your password has been sent!',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: CupertinoColors.activeGreen,
+                                        ),
+                                      ),
+                                    )
                               : const SizedBox(),
                         ),
                       ],
