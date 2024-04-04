@@ -37,6 +37,7 @@ const _$MailTypeEnumMap = {
 const _$CommonReasonEnumMap = {
   CommonReason.spam: 'spam',
   CommonReason.notFound: 'notFound',
+  CommonReason.full: 'full',
   CommonReason.leftETV: 'leftETV',
   CommonReason.leftBadminton: 'leftBadminton',
   CommonReason.notInterested: 'notInterested',

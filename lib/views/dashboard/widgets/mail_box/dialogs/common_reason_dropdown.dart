@@ -56,7 +56,7 @@ class CommonReasonDropdown extends StatelessWidget {
         SizedBox(width: DesignSystem.spacing.x12),
         AnimatedSwitcher(
           duration: DesignSystem.animation.defaultDurationMS250,
-          child: this.commonReason == CommonReason.other
+          child: this.commonReason != null
               ? InkWell(
                   onTap: this.onDelete,
                   splashColor: Colors.transparent,
