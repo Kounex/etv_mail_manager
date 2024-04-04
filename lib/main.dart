@@ -5,7 +5,9 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'app.dart';
 
 void main() async {
-  usePathUrlStrategy();
+  if (!(bool.tryParse(const String.fromEnvironment('GH_RELEASE')) ?? false)) {
+    usePathUrlStrategy();
+  }
 
   runApp(
     const Init(
