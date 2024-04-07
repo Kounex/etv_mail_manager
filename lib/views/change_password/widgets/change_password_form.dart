@@ -6,8 +6,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../router/router.dart';
+import '../../../router/routes.dart';
+
 class ChangePasswordForm extends StatefulWidget {
-  const ChangePasswordForm({super.key});
+  final String? code;
+
+  const ChangePasswordForm({
+    super.key,
+    required this.code,
+  });
 
   @override
   State<ChangePasswordForm> createState() => _ChangePasswordFormState();
@@ -40,7 +48,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     bool pwCheckValid = _pwCheck.isValid;
     if (pwValid && pwCheckValid) {
       setState(() {
-        _userResponse = BaseSupabaseClient().changePassword(_pw.text.trim());
+        _userResponse = BaseSupabaseClient()
+            .changePassword(code: this.widget.code!, password: _pw.text.trim());
       });
     }
   }
@@ -51,74 +60,111 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
       child: SizedBox(
         width: DesignSystem.size.x512,
         child: BaseCard(
-          title: 'Change Password',
+          title: this.widget.code != null ? 'Change Password' : null,
           paintBorder: true,
           borderColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
-          child: FocusTraversalGroup(
-            policy: WidgetOrderTraversalPolicy(),
-            child: Column(
-              children: [
-                BaseAdaptiveTextField(
-                  controller: _pw,
-                  platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.all(
-                    DesignSystem.spacing.x192 + DesignSystem.spacing.x16,
-                  ),
-                  clearButton: true,
-                  placeholder: 'Password',
-                  errorPaddingAlways: true,
-                  onSubmitted: (_) {},
-                ),
-                SizedBox(height: DesignSystem.spacing.x12),
-                BaseAdaptiveTextField(
-                  controller: _pwCheck,
-                  platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.all(
-                    DesignSystem.spacing.x192 + DesignSystem.spacing.x16,
-                  ),
-                  clearButton: true,
-                  placeholder: 'Password again',
-                  errorPaddingAlways: true,
-                  onSubmitted: (_) {},
-                ),
-                SizedBox(height: DesignSystem.spacing.x24),
-                FutureBuilder<UserResponse>(
+          child: this.widget.code != null
+              ? FutureBuilder<UserResponse>(
                   future: _userResponse,
-                  builder: (context, asyncSession) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: BaseButton(
-                            onPressed: _handleUpdatePassword,
-                            text: 'Update Password',
-                            loading: asyncSession.connectionState ==
-                                ConnectionState.waiting,
-                          ),
-                        ),
-                        SizedBox(height: DesignSystem.spacing.x12),
-                        AnimatedContainer(
-                          duration: DesignSystem.animation.defaultDurationMS250,
-                          child: asyncSession.hasError
-                              ? const Fader(
-                                  child: Text(
-                                    'Something went wrong! Try the reset password process again from the beginning!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: CupertinoColors.destructiveRed,
+                  builder: (context, asyncUserResponse) => asyncUserResponse
+                                  .connectionState ==
+                              ConnectionState.done &&
+                          !asyncUserResponse.hasError
+                      ? Fader(
+                          child: Text.rich(
+                            TextSpan(
+                              text: 'Password has been set! You can now ',
+                              children: <InlineSpan>[
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.baseline,
+                                  baseline: TextBaseline.alphabetic,
+                                  child: InkWell(
+                                    onTap: () => BaseAppRouter().navigateTo(
+                                        context, PreAppRoutes.login),
+                                    hoverColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    child: Text(
+                                      'head back to login',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      ),
                                     ),
                                   ),
-                                )
-                              : const SizedBox(),
+                                ),
+                                const TextSpan(
+                                  text: '.',
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : FocusTraversalGroup(
+                          policy: WidgetOrderTraversalPolicy(),
+                          child: Column(
+                            children: [
+                              BaseAdaptiveTextField(
+                                controller: _pw,
+                                platform: TargetPlatform.iOS,
+                                scrollPadding: EdgeInsets.all(
+                                  DesignSystem.spacing.x192 +
+                                      DesignSystem.spacing.x16,
+                                ),
+                                clearButton: true,
+                                placeholder: 'Password',
+                                errorPaddingAlways: true,
+                                onSubmitted: (_) {},
+                              ),
+                              SizedBox(height: DesignSystem.spacing.x12),
+                              BaseAdaptiveTextField(
+                                controller: _pwCheck,
+                                platform: TargetPlatform.iOS,
+                                scrollPadding: EdgeInsets.all(
+                                  DesignSystem.spacing.x192 +
+                                      DesignSystem.spacing.x16,
+                                ),
+                                clearButton: true,
+                                placeholder: 'Password again',
+                                errorPaddingAlways: true,
+                                onSubmitted: (_) {},
+                              ),
+                              SizedBox(height: DesignSystem.spacing.x24),
+                              SizedBox(
+                                width: double.infinity,
+                                child: BaseButton(
+                                  onPressed: _handleUpdatePassword,
+                                  text: 'Update Password',
+                                  loading: asyncUserResponse.connectionState ==
+                                      ConnectionState.waiting,
+                                ),
+                              ),
+                              SizedBox(height: DesignSystem.spacing.x12),
+                              AnimatedContainer(
+                                duration:
+                                    DesignSystem.animation.defaultDurationMS250,
+                                child: asyncUserResponse.hasError
+                                    ? const Fader(
+                                        child: Text(
+                                          'Something went wrong! Try the reset password process again from the beginning!',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color:
+                                                CupertinoColors.destructiveRed,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
+                )
+              : const Text(
+                  'No valid session to change password.\nTry the whole process again!'),
         ),
       ),
     );

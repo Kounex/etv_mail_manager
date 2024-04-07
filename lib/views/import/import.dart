@@ -6,9 +6,10 @@ import 'package:etv_mail_manager/views/import/widgets/wrong_mails.dart';
 import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
 
+import '../../router/view.dart';
 import 'widgets/mail_text_field.dart';
 
-class ImportView extends StatefulWidget {
+class ImportView extends RouterStatefulView {
   const ImportView({super.key});
 
   @override

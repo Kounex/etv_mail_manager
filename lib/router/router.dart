@@ -72,7 +72,7 @@ class BaseAppRouter {
           path:
               '/${route.fullPath.split('/').skip(level + 1).take(1).join('')}',
           name: route.name,
-          pageBuilder: (context, state) => _webPage(route),
+          pageBuilder: (context, state) => _webPage(route, state),
           routes: _routes(
             List.from(
               routes.where((innerRoute) =>
@@ -86,11 +86,11 @@ class BaseAppRouter {
     );
   }
 
-  Page _webPage(BaseRoute route) => NoTransitionPage(
+  Page _webPage(BaseRoute route, GoRouterState state) => NoTransitionPage(
         child: Title(
           title: 'EMM | ${route.name}',
           color: Colors.white,
-          child: route.view,
+          child: route.view(state),
         ),
       );
 }

@@ -1,4 +1,5 @@
 import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/router/view.dart';
 import 'package:etv_mail_manager/views/dashboard/widgets/delete_all_button.dart';
 import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import '../../models/etv_mail/service.dart';
 import '../../utils/signals.dart';
 import 'widgets/mail_box/mail_box.dart';
 
-class DashboardView extends StatefulWidget {
+class DashboardView extends RouterStatefulView {
   const DashboardView({super.key});
 
   @override

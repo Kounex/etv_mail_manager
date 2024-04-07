@@ -30,9 +30,12 @@ class BaseSupabaseClient {
   Future<void> resetPasswordForEmail(String email) =>
       Supabase.instance.client.auth.resetPasswordForEmail(email);
 
-  Future<UserResponse> changePassword(String password) =>
-      Supabase.instance.client.auth
-          .updateUser(UserAttributes(password: password));
+  Future<UserResponse> changePassword(
+      {required String code, required String password}) async {
+    await Supabase.instance.client.auth.exchangeCodeForSession(code);
+    return Supabase.instance.client.auth
+        .updateUser(UserAttributes(password: password));
+  }
 
   Future<void> signOut() => Supabase.instance.client.auth.signOut();
 

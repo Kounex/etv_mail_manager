@@ -1,7 +1,8 @@
+import 'package:etv_mail_manager/router/view.dart';
 import 'package:etv_mail_manager/views/change_password/change_password.dart';
 import 'package:etv_mail_manager/views/forgot/forgot.dart';
 import 'package:etv_mail_manager/views/login/login.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../views/dashboard/dashboard.dart';
 import '../views/import/import.dart';
@@ -10,7 +11,8 @@ abstract class BaseRoute {
   String get fullPath;
   String get name;
   bool get fullscreen;
-  Widget get view;
+
+  RouterStatefulView view(GoRouterState state);
 }
 
 enum PreAppRoutes implements BaseRoute {
@@ -38,10 +40,11 @@ enum PreAppRoutes implements BaseRoute {
       };
 
   @override
-  Widget get view => switch (this) {
+  RouterStatefulView view(GoRouterState state) => switch (this) {
         PreAppRoutes.login => const LoginView(),
         PreAppRoutes.forgot => const ForgotView(),
-        PreAppRoutes.changePassword => const ChangePasswordView(),
+        PreAppRoutes.changePassword =>
+          ChangePasswordView(data: ChangePasswordRouterViewData(state: state)),
       };
 }
 
@@ -67,8 +70,8 @@ enum AppRoutes implements BaseRoute {
       };
 
   @override
-  Widget get view => switch (this) {
+  RouterStatefulView view(GoRouterState state) => switch (this) {
         AppRoutes.dashboard => const DashboardView(),
-        AppRoutes.import => const ImportView()
+        AppRoutes.import => const ImportView(),
       };
 }

@@ -63,100 +63,100 @@ class _ForgotFormState extends State<ForgotForm> {
           paintBorder: true,
           borderColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
-          child: FocusTraversalGroup(
-            policy: WidgetOrderTraversalPolicy(),
-            child: Column(
-              children: [
-                BaseAdaptiveTextField(
-                  controller: _email,
-                  platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.all(
-                    DesignSystem.spacing.x192 + DesignSystem.spacing.x16,
-                  ),
-                  clearButton: true,
-                  placeholder: 'Email',
-                  errorPaddingAlways: true,
-                  keyboardType: TextInputType.emailAddress,
-                  onSubmitted: (_) {},
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'I remember my password and ',
-                      children: <InlineSpan>[
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.baseline,
-                          baseline: TextBaseline.alphabetic,
-                          child: InkWell(
-                            onTap: () => BaseAppRouter()
-                                .navigateTo(context, PreAppRoutes.login),
-                            hoverColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            child: Text(
-                              'want to login',
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
+          child: FutureBuilder<void>(
+            future: _emailSent,
+            builder: (context, asyncEmailSent) =>
+                asyncEmailSent.connectionState == ConnectionState.done &&
+                        !asyncEmailSent.hasError
+                    ? Fader(
+                        child: Text(
+                          'An email to reset your password has been sent.\nPlease close this tab!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.green[700],
+                          ),
+                        ),
+                      )
+                    : FocusTraversalGroup(
+                        policy: WidgetOrderTraversalPolicy(),
+                        child: Column(
+                          children: [
+                            BaseAdaptiveTextField(
+                              controller: _email,
+                              platform: TargetPlatform.iOS,
+                              scrollPadding: EdgeInsets.all(
+                                DesignSystem.spacing.x192 +
+                                    DesignSystem.spacing.x16,
+                              ),
+                              clearButton: true,
+                              placeholder: 'Email',
+                              errorPaddingAlways: true,
+                              keyboardType: TextInputType.emailAddress,
+                              onSubmitted: (_) {},
                             ),
-                          ),
-                        ),
-                        const TextSpan(
-                          text: '.',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: DesignSystem.spacing.x24),
-                FutureBuilder<void>(
-                  future: _emailSent,
-                  builder: (context, asyncEmailSent) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: BaseButton(
-                            onPressed: _handleReset,
-                            text: 'Reset Password',
-                            loading: asyncEmailSent.connectionState ==
-                                ConnectionState.waiting,
-                          ),
-                        ),
-                        SizedBox(height: DesignSystem.spacing.x12),
-                        AnimatedContainer(
-                          duration: DesignSystem.animation.defaultDurationMS250,
-                          child: asyncEmailSent.connectionState ==
-                                  ConnectionState.done
-                              ? asyncEmailSent.hasError
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text.rich(
+                                TextSpan(
+                                  text: 'I remember my password and ',
+                                  children: <InlineSpan>[
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.baseline,
+                                      baseline: TextBaseline.alphabetic,
+                                      child: InkWell(
+                                        onTap: () => BaseAppRouter().navigateTo(
+                                            context, PreAppRoutes.login),
+                                        hoverColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        child: Text(
+                                          'want to login',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                        ),
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text: '.',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: DesignSystem.spacing.x24),
+                            SizedBox(
+                              width: double.infinity,
+                              child: BaseButton(
+                                onPressed: _handleReset,
+                                text: 'Reset Password',
+                                loading: asyncEmailSent.connectionState ==
+                                    ConnectionState.waiting,
+                              ),
+                            ),
+                            SizedBox(height: DesignSystem.spacing.x12),
+                            AnimatedContainer(
+                              duration:
+                                  DesignSystem.animation.defaultDurationMS250,
+                              child: asyncEmailSent.connectionState ==
+                                          ConnectionState.done &&
+                                      asyncEmailSent.hasError
                                   ? const Fader(
                                       child: Text(
-                                        'Not possible to request a password reset right now. Please try again later!',
+                                        'Not possible to request a password reset right now.\nPlease try again later!',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: CupertinoColors.destructiveRed,
                                         ),
                                       ),
                                     )
-                                  : const Fader(
-                                      child: Text(
-                                        'An email with instructions to reset your password has been sent!',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: CupertinoColors.activeGreen,
-                                        ),
-                                      ),
-                                    )
-                              : const SizedBox(),
+                                  : const SizedBox(),
+                            ),
+                          ],
                         ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
+                      ),
           ),
         ),
       ),
