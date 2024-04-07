@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -148,13 +147,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                                     DesignSystem.animation.defaultDurationMS250,
                                 child: asyncUserResponse.hasError
                                     ? const Fader(
-                                        child: Text(
+                                        child: BaseErrorText(
                                           'Something went wrong! Try the reset password process again from the beginning!',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color:
-                                                CupertinoColors.destructiveRed,
-                                          ),
                                         ),
                                       )
                                     : const SizedBox(),
@@ -163,8 +157,9 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                           ),
                         ),
                 )
-              : const Text(
-                  'No valid session to change password.\nTry the whole process again!'),
+              : const BaseErrorText(
+                  'No valid session to change password.\nTry the whole process again!',
+                ),
         ),
       ),
     );

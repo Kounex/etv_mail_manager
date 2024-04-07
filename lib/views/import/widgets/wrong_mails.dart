@@ -16,12 +16,10 @@ class WrongMails extends StatelessWidget {
           return Fader(
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text(
+              child: BaseErrorText(
                 'These mails are not correct: ${ImportSignals().wrongMails.reduce((value, element) => value += ', $element')}',
-                style: Theme.of(context).inputDecorationTheme.errorStyle ??
-                    Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: CupertinoColors.destructiveRed,
-                        ),
+                center: false,
+                dense: true,
               ),
             ),
           );

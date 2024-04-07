@@ -4,7 +4,6 @@ import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/router.dart';
 import 'package:etv_mail_manager/router/routes.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -144,12 +143,8 @@ class _ForgotFormState extends State<ForgotForm> {
                                           ConnectionState.done &&
                                       asyncEmailSent.hasError
                                   ? const Fader(
-                                      child: Text(
+                                      child: BaseErrorText(
                                         'Not possible to request a password reset right now.\nPlease try again later!',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: CupertinoColors.destructiveRed,
-                                        ),
                                       ),
                                     )
                                   : const SizedBox(),

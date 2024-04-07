@@ -62,7 +62,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: ec0f6f73381ae9c2f927ab0891df0cb93e848ab5
+      resolved-ref: "681a56d4cb0162a1025a903e9fc42ff23ffa7760"
       url: "https://github.com/Kounex/base_components.git"
     source: git
     version: "1.0.0"
@@ -150,18 +150,18 @@ packages:
     dependency: transitive
     description:
       name: camera_android
-      sha256: "1100e527b44a96906987a91ef78c8dacb539e34612a8058de89023380acf67f1"
+      sha256: ae5b9a996dfb8d77b02031b67f5500873d6402f33bd6a5283e932eef08542a51
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.8+18"
+    version: "0.10.9"
   camera_avfoundation:
     dependency: transitive
     description:
       name: camera_avfoundation
-      sha256: "841682a28b99b8594532d2afe81e092a2c1edb2c93526f6f841a878dd57eec8d"
+      sha256: "5d009ae48de1c8ab621b1c4496dadb6e2a83f3223b76c6e6a4a252414105f561"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.14+2"
+    version: "0.9.15"
   camera_platform_interface:
     dependency: transitive
     description:
@@ -174,10 +174,10 @@ packages:
     dependency: transitive
     description:
       name: camera_web
-      sha256: f18ccfb33b2a7c49a52ad5aa3f07330b7422faaecbdfd9b9fe8e51182f6ad67d
+      sha256: "9e9aba2fbab77ce2472924196ff8ac4dd8f9126c4f9a3096171cd1d870d6b26c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2+4"
+    version: "0.3.3"
   characters:
     dependency: transitive
     description:
@@ -390,10 +390,10 @@ packages:
     dependency: transitive
     description:
       name: fluentui_system_icons
-      sha256: cb71bafe3d760b0a6c49aabeaa8ae9534968b8a8e2e6d8e32f67090cd9bb53be
+      sha256: "6a9c300f03bc0b2d086389306f72f7023ae18b3dcd8de1a0bb8c814887c5e2c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.232"
+    version: "1.1.233"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -469,10 +469,10 @@ packages:
     dependency: "direct main"
     description:
       name: freezed
-      sha256: "57247f692f35f068cae297549a46a9a097100685c6780fe67177503eea5ed4e5"
+      sha256: "24f77b50776d4285cc4b3a1665bb79852714c09b878363efbe64788c179c4284"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.7"
+    version: "2.5.0"
   freezed_annotation:
     dependency: "direct main"
     description:

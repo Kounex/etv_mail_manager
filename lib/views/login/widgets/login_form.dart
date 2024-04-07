@@ -4,7 +4,6 @@ import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/router.dart';
 import 'package:etv_mail_manager/router/routes.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -149,12 +148,8 @@ class _LoginFormState extends State<LoginForm> {
                           duration: DesignSystem.animation.defaultDurationMS250,
                           child: asyncSession.hasError
                               ? const Fader(
-                                  child: Text(
+                                  child: BaseErrorText(
                                     'Email and Password combination does not exist!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: CupertinoColors.destructiveRed,
-                                    ),
                                   ),
                                 )
                               : const SizedBox(),
