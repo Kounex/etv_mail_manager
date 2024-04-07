@@ -28,7 +28,11 @@ class BaseSupabaseClient {
   }
 
   Future<void> resetPasswordForEmail(String email) =>
-      Supabase.instance.client.auth.resetPasswordForEmail(email);
+      Supabase.instance.client.auth.resetPasswordForEmail(
+        email,
+        redirectTo:
+            'https://kounex.github.io/etv_mail_manager/#/change-password',
+      );
 
   Future<UserResponse> changePassword(
       {required String code, required String password}) async {
