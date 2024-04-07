@@ -52011,7 +52011,7 @@ r=$.cY().b
 r===$&&A.a()
 r=r.z
 r===$&&A.a()
-q.f=r.wV(s)},
+q.f=r.wV(s,"https://kounex.github.io/etv_mail_manager/#/change-password")},
 $S:0}
 A.at8.prototype={
 $2(a,b){var s,r,q,p,o=null,n=b.a,m=n===B.dz
@@ -96160,7 +96160,9 @@ i=d.c
 if(i!=null)j.p(0,"Authorization","Bearer "+A.h(i))
 o=d.f
 if(o==null){i=t.N
-o=A.B(i,i)}n=A.cH(b,0,null)
+o=A.B(i,i)}i=d.d
+if(i!=null){i.toString
+o.p(0,"redirect_to",i)}n=A.cH(b,0,null)
 i=t.z
 m=A.dp(n.gfk(),t.N,i)
 m.L(0,o)
@@ -96402,9 +96404,9 @@ break
 case 10:case 6:return A.F(null,r)
 case 1:return A.E(p,r)}})
 return A.G($async$lo,r)},
-wV(a){return this.av0(a)},
-av0(a){var s=0,r=A.H(t.H),q=this,p,o,n,m,l
-var $async$wV=A.I(function(b,c){if(b===1)return A.E(c,r)
+wV(a,b){return this.av0(a,b)},
+av0(a,b){var s=0,r=A.H(t.H),q=this,p,o,n,m,l
+var $async$wV=A.I(function(c,d){if(c===1)return A.E(d,r)
 while(true)switch(s){case 0:s=q.ay===B.fJ?2:4
 break
 case 2:p=A.b2H()
@@ -96417,7 +96419,7 @@ break
 case 4:n=null
 case 3:o=t.N
 m=A.aA(["captcha_token",null],o,t.u)
-l=A.v8(A.aA(["email",a,"gotrue_meta_security",m,"code_challenge",n,"code_challenge_method",n!=null?"s256":null],o,t.X),q.f,null,null,null,null)
+l=A.v8(A.aA(["email",a,"gotrue_meta_security",m,"code_challenge",n,"code_challenge_method",n!=null?"s256":null],o,t.X),q.f,null,null,null,b)
 s=6
 return A.N(q.gof().iA(0,q.e+"/recover",B.f7,l),$async$wV)
 case 6:return A.F(null,r)}})
