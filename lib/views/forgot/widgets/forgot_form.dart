@@ -123,6 +123,7 @@ class _ForgotFormState extends State<ForgotForm> {
                                     ),
                                   ],
                                 ),
+                                textAlign: TextAlign.right,
                               ),
                             ),
                             SizedBox(height: DesignSystem.spacing.x24),

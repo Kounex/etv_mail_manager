@@ -126,6 +126,7 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                       ],
                     ),
+                    textAlign: TextAlign.right,
                   ),
                 ),
                 SizedBox(height: DesignSystem.spacing.x24),
