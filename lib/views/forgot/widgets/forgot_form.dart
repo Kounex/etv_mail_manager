@@ -91,7 +91,7 @@ class _ForgotFormState extends State<ForgotForm> {
                               placeholder: 'Email',
                               errorPaddingAlways: true,
                               keyboardType: TextInputType.emailAddress,
-                              onSubmitted: (_) {},
+                              onSubmitted: (_) => _handleReset(),
                             ),
                             Align(
                               alignment: Alignment.centerRight,

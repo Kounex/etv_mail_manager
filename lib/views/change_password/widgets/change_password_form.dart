@@ -100,6 +100,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                                 ),
                               ],
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         )
                       : FocusTraversalGroup(
@@ -116,7 +117,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                                 clearButton: true,
                                 placeholder: 'Password',
                                 errorPaddingAlways: true,
-                                onSubmitted: (_) {},
+                                obscureText: true,
+                                onSubmitted: (_) => _handleUpdatePassword(),
                               ),
                               SizedBox(height: DesignSystem.spacing.x12),
                               BaseAdaptiveTextField(
@@ -129,7 +131,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                                 clearButton: true,
                                 placeholder: 'Password again',
                                 errorPaddingAlways: true,
-                                onSubmitted: (_) {},
+                                obscureText: true,
+                                onSubmitted: (_) => _handleUpdatePassword(),
                               ),
                               SizedBox(height: DesignSystem.spacing.x24),
                               SizedBox(
