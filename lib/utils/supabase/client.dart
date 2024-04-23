@@ -33,7 +33,7 @@ class BaseSupabaseClient {
   Future<void> resetPasswordForEmail(String email) =>
       Supabase.instance.client.auth.resetPasswordForEmail(
         email,
-        redirectTo: EnvUtils().env.redirectURL ??
+        redirectTo: EnvUtils.env.redirectURL ??
             '${window.location.protocol}//${window.location.host}/change-password',
       );
 

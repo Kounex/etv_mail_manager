@@ -9,19 +9,18 @@ class Env {
 }
 
 class EnvUtils {
-  static EnvUtils? _instance;
   static bool _initialized = false;
 
   static Env _env = Env();
 
   EnvUtils._();
 
-  factory EnvUtils() {
+  static Env get env {
     assert(
       _initialized,
       'Env has not been initialized yet! Run the [loadEnv] function!',
     );
-    return _instance ??= EnvUtils._();
+    return _env;
   }
 
   static Future<void> loadEnv() async {
@@ -40,6 +39,4 @@ class EnvUtils {
 
     _initialized = true;
   }
-
-  Env get env => _env;
 }
