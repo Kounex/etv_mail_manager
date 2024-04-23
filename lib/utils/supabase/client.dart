@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:etv_mail_manager/utils/env.dart';
 import 'package:etv_mail_manager/utils/supabase/table.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -30,8 +33,8 @@ class BaseSupabaseClient {
   Future<void> resetPasswordForEmail(String email) =>
       Supabase.instance.client.auth.resetPasswordForEmail(
         email,
-        redirectTo:
-            'https://kounex.github.io/etv_mail_manager/#/change-password',
+        redirectTo: EnvUtils().env.redirectURL ??
+            '${window.location.protocol}//${window.location.host}/change-password',
       );
 
   Future<UserResponse> changePassword(

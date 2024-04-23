@@ -68,8 +68,7 @@ class _LoginFormState extends State<LoginForm> {
           paintBorder: true,
           borderColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
-          child: FocusTraversalGroup(
-            policy: WidgetOrderTraversalPolicy(),
+          child: Form(
             child: Column(
               children: [
                 BaseAdaptiveTextField(
@@ -100,6 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text.rich(
+                    textAlign: TextAlign.right,
                     TextSpan(
                       text: 'I may need to ',
                       children: <InlineSpan>[
@@ -126,7 +126,6 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                       ],
                     ),
-                    textAlign: TextAlign.right,
                   ),
                 ),
                 SizedBox(height: DesignSystem.spacing.x24),

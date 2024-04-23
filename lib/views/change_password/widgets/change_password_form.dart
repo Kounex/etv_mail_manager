@@ -103,8 +103,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                             textAlign: TextAlign.center,
                           ),
                         )
-                      : FocusTraversalGroup(
-                          policy: WidgetOrderTraversalPolicy(),
+                      : Form(
                           child: Column(
                             children: [
                               BaseAdaptiveTextField(

@@ -76,8 +76,7 @@ class _ForgotFormState extends State<ForgotForm> {
                           ),
                         ),
                       )
-                    : FocusTraversalGroup(
-                        policy: WidgetOrderTraversalPolicy(),
+                    : Form(
                         child: Column(
                           children: [
                             BaseAdaptiveTextField(
@@ -96,6 +95,7 @@ class _ForgotFormState extends State<ForgotForm> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text.rich(
+                                textAlign: TextAlign.right,
                                 TextSpan(
                                   text: 'I remember my password and ',
                                   children: <InlineSpan>[
@@ -123,7 +123,6 @@ class _ForgotFormState extends State<ForgotForm> {
                                     ),
                                   ],
                                 ),
-                                textAlign: TextAlign.right,
                               ),
                             ),
                             SizedBox(height: DesignSystem.spacing.x24),

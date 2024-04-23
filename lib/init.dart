@@ -1,4 +1,5 @@
 import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/utils/env.dart';
 import 'package:etv_mail_manager/utils/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class _InitState extends State<Init> {
 
   Future<void> _initApp() async {
     await SupabaseInit.create();
+    await EnvUtils.loadEnv();
   }
 
   @override
