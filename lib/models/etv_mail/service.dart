@@ -48,7 +48,7 @@ class ETVMailService implements ModelClient<ETVMail> {
     try {
       final result = await _client.create<ETVMail>(
         _table,
-        mail.toJson()..removeWhere((key, value) => key.startsWith('\$')),
+        mail.toJson(),
         ETVMail.fromJson,
       );
 
@@ -66,7 +66,7 @@ class ETVMailService implements ModelClient<ETVMail> {
       final result = await _client.update<ETVMail>(
         _table,
         mail.uuid,
-        mail.toJson()..removeWhere((key, value) => key.startsWith('\$')),
+        mail.toJson(),
         ETVMail.fromJson,
       );
 
@@ -105,8 +105,7 @@ class ETVMailService implements ModelClient<ETVMail> {
     try {
       List<ETVMail?> result = await _client.createBulk(
         _table,
-        List.from(mailsToCreate.map((mail) =>
-            mail.toJson()..removeWhere((key, value) => key.startsWith('\$')))),
+        List.from(mailsToCreate.map((mail) => mail.toJson())),
         ETVMail.fromJson,
       );
 
@@ -127,7 +126,7 @@ class ETVMailService implements ModelClient<ETVMail> {
           mailsToUpdate.map(
             (mail) => MapEntry(
               mail.uuid,
-              mail.toJson()..removeWhere((key, value) => key.startsWith('\$')),
+              mail.toJson(),
             ),
           ),
         ),
