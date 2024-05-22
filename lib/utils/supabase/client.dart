@@ -128,8 +128,10 @@ class BaseSupabaseClient {
   Future<List<T?>> createBulk<T>(
     SupabaseTable table,
     List<Map<dynamic, dynamic>> data,
-    T Function(Map<String, dynamic> json) fromJson,
-  ) async {
+    T Function(Map<String, dynamic> json) fromJson, {
+    int bulkSize = 10,
+    Duration bulkDelay = const Duration(seconds: 3),
+  }) async {
     final results = await _bulk(
       data,
       (element) => BaseSupabaseClient().create(
@@ -145,8 +147,10 @@ class BaseSupabaseClient {
   Future<List<T?>> updateBulk<T>(
     SupabaseTable table,
     List<(String uuid, Map<dynamic, dynamic> data)> data,
-    T Function(Map<String, dynamic> json) fromJson,
-  ) async {
+    T Function(Map<String, dynamic> json) fromJson, {
+    int bulkSize = 10,
+    Duration bulkDelay = const Duration(seconds: 3),
+  }) async {
     final results = await _bulk(
       data,
       (element) => BaseSupabaseClient().update(
@@ -162,11 +166,15 @@ class BaseSupabaseClient {
 
   Future<List<T?>> deleteBulk<T>(
     SupabaseTable table,
-    List<String> uuids,
-  ) async {
+    List<String> uuids, {
+    int bulkSize = 10,
+    Duration bulkDelay = const Duration(seconds: 3),
+  }) async {
     return _bulk(
       uuids,
       (uuid) => BaseSupabaseClient().delete(table, uuid),
+      bulkSize: bulkSize,
+      bulkDelay: bulkDelay,
     );
   }
 
