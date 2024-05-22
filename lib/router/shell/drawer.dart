@@ -59,6 +59,24 @@ class ShellDrawer extends StatelessWidget {
               ),
             ),
           ),
+          const BaseDivider(),
+          SizedBox(height: DesignSystem.spacing.x8),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.only(left: DesignSystem.spacing.x12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(BaseSupabaseClient().session()?.user.email ?? 'Unknown'),
+                  Text(
+                    BaseSupabaseClient().session()?.user.role ?? 'Unknown',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.all(DesignSystem.spacing.x24),
             child: SizedBox(

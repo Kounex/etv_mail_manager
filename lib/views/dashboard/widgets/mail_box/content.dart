@@ -70,6 +70,11 @@ class MailBoxContent extends StatelessWidget {
                 )
               : null,
         ),
+        // const BaseDivider(),
+        // const Align(
+        //   alignment: Alignment.centerRight,
+        //   child: BaseButton(isDestructive: true, text: 'Clear',),
+        // ),
       ],
     );
   }

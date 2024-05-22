@@ -1,6 +1,4 @@
-import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/view.dart';
-import 'package:etv_mail_manager/views/dashboard/widgets/delete_all_button.dart';
 import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
 
@@ -40,13 +38,13 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    return ETVScaffold(
+    return const ETVScaffold(
       children: [
-        const MailBox(type: MailType.active),
-        const MailBox(type: MailType.unreachable),
-        const MailBox(type: MailType.removed),
-        SizedBox(height: DesignSystem.spacing.x64),
-        const DeleteAllButton(),
+        MailBox(type: MailType.active),
+        MailBox(type: MailType.unreachable),
+        MailBox(type: MailType.removed),
+        // SizedBox(height: DesignSystem.spacing.x64),
+        // const DeleteAllButton(),
       ],
     );
   }

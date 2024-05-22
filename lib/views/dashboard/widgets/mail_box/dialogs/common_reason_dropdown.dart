@@ -22,33 +22,40 @@ class CommonReasonDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        DropdownButton<CommonReason?>(
-          onChanged: this.onChanged,
-          value: this.commonReason,
-          padding: const EdgeInsets.all(0),
-          hint: Transform.translate(
-            offset: Offset(-DesignSystem.spacing.x12, 0),
-            child: const Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Reason'),
+        Flexible(
+          child: DropdownButton<CommonReason?>(
+            onChanged: this.onChanged,
+            value: this.commonReason,
+            padding: const EdgeInsets.all(0),
+            isExpanded: true,
+            hint: Transform.translate(
+              offset: Offset(-DesignSystem.spacing.x12, 0),
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Reason'),
+              ),
             ),
-          ),
-          selectedItemBuilder: (context) => List.from(
-            CommonReason.forType(this.type).map(
-              (commonReason) => Transform.translate(
-                offset: Offset(-DesignSystem.spacing.x12, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(commonReason.text),
+            selectedItemBuilder: (context) => List.from(
+              CommonReason.forType(this.type).map(
+                (commonReason) => Transform.translate(
+                  offset: Offset(-DesignSystem.spacing.x12, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      commonReason.text,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          items: List.from(
-            CommonReason.forType(this.type).map(
-              (commonReason) => DropdownMenuItem(
-                value: commonReason,
-                child: Text(commonReason.text),
+            items: List.from(
+              CommonReason.forType(this.type).map(
+                (commonReason) => DropdownMenuItem(
+                  value: commonReason,
+                  child: Text(commonReason.text),
+                ),
               ),
             ),
           ),
