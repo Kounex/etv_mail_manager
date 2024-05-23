@@ -82,7 +82,6 @@
           loadingText.textContent = 'Initializing engine...';
           let appRunner = await engineInitializer.initializeEngine();
 
-          loading.className = '';
           loadingText.textContent = 'Running app...';
           await appRunner.runApp();
         }
