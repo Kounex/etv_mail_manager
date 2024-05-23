@@ -76,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
                   platform: TargetPlatform.iOS,
                   scrollPadding: EdgeInsets.only(
                     bottom:
-                        DesignSystem.spacing.x192 + DesignSystem.spacing.x24,
+                        DesignSystem.spacing.x192 + DesignSystem.spacing.x18,
                   ),
                   clearButton: true,
                   placeholder: 'Email',
