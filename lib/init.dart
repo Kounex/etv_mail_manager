@@ -51,7 +51,7 @@ class _InitState extends State<Init> {
                   'assets/images/etv-logo.png',
                   height: DesignSystem.size.x92,
                 ),
-                SizedBox(height: DesignSystem.spacing.x12),
+                SizedBox(height: DesignSystem.spacing.x24),
                 BaseProgressIndicator(),
               ],
             ),
