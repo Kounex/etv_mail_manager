@@ -74,8 +74,9 @@ class _LoginFormState extends State<LoginForm> {
                 BaseAdaptiveTextField(
                   controller: _email,
                   platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.all(
-                    DesignSystem.spacing.x192 + DesignSystem.spacing.x24,
+                  scrollPadding: EdgeInsets.only(
+                    bottom:
+                        DesignSystem.spacing.x192 + DesignSystem.spacing.x24,
                   ),
                   clearButton: true,
                   placeholder: 'Email',
@@ -87,8 +88,9 @@ class _LoginFormState extends State<LoginForm> {
                 BaseAdaptiveTextField(
                   controller: _pw,
                   platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.all(
-                    DesignSystem.spacing.x128 + DesignSystem.spacing.x18,
+                  scrollPadding: EdgeInsets.only(
+                    bottom:
+                        DesignSystem.spacing.x128 + DesignSystem.spacing.x18,
                   ),
                   clearButton: true,
                   placeholder: 'Password',
