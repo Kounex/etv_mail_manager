@@ -28,8 +28,11 @@ class _InitState extends State<Init> {
   }
 
   Future<void> _initApp() async {
-    await SupabaseInit.create();
-    await EnvUtils.loadEnv();
+    await Future.wait([
+      SupabaseInit.create(),
+      EnvUtils.loadEnv(),
+      Future.delayed(const Duration(seconds: 1)),
+    ]);
   }
 
   @override
@@ -41,7 +44,17 @@ class _InitState extends State<Init> {
         child: Material(
           child: BaseFutureBuilder(
             future: _init,
-            loading: 'Initializing...',
+            loading: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/etv-logo.png',
+                  height: DesignSystem.size.x92,
+                ),
+                SizedBox(height: DesignSystem.spacing.x12),
+                BaseProgressIndicator(),
+              ],
+            ),
             data: (_) => this.widget.child,
           ),
         ),

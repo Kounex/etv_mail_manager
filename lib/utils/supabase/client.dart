@@ -54,7 +54,7 @@ class BaseSupabaseClient {
     final result = await Supabase.instance.client
         .from(table.apiName)
         .select()
-        .isFilter('uuid', uuid);
+        .eq('uuid', uuid);
 
     if (result.isEmpty) {
       return null;
