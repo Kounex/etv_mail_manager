@@ -1,8 +1,7 @@
-import 'dart:html';
-
 import 'package:etv_mail_manager/utils/env.dart';
 import 'package:etv_mail_manager/utils/supabase/table.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:web/web.dart';
 
 class BaseSupabaseClient {
   static BaseSupabaseClient? _instance;

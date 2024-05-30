@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/view.dart';
 import 'package:etv_mail_manager/views/change_password/widgets/change_password_form.dart';
 import 'package:flutter/material.dart';
+import 'package:web/web.dart';
 
 class ChangePasswordRouterViewData extends RouterViewData {
   ChangePasswordRouterViewData({required super.state});
