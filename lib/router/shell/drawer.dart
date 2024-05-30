@@ -1,7 +1,9 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/router.dart';
+import 'package:etv_mail_manager/signals/meta.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
 import 'package:flutter/material.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 
 import '../routes.dart';
 
@@ -72,6 +74,18 @@ class ShellDrawer extends StatelessWidget {
                   Text(
                     BaseSupabaseClient().session()?.user.role ?? 'Unknown',
                     style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                  SizedBox(height: DesignSystem.spacing.x8),
+                  Watch(
+                    (_) => Text(
+                      MetaSignals().appVersion.value.maybeMap(
+                            data: (version) => version,
+                            orElse: () => '-',
+                          ),
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                            color: Theme.of(context).disabledColor,
+                          ),
+                    ),
                   ),
                 ],
               ),

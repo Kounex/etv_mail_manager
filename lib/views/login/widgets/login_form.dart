@@ -4,6 +4,7 @@ import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/router.dart';
 import 'package:etv_mail_manager/router/routes.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
+import 'package:etv_mail_manager/widgets/version_text.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -68,100 +69,110 @@ class _LoginFormState extends State<LoginForm> {
           paintBorder: true,
           borderColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
-          child: Form(
-            child: Column(
-              children: [
-                BaseAdaptiveTextField(
-                  controller: _email,
-                  platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.only(
-                    bottom:
-                        DesignSystem.spacing.x192 + DesignSystem.spacing.x18,
-                  ),
-                  clearButton: true,
-                  placeholder: 'Email',
-                  errorPaddingAlways: true,
-                  keyboardType: TextInputType.emailAddress,
-                  onSubmitted: (_) => _signIn(),
-                ),
-                SizedBox(height: DesignSystem.spacing.x4),
-                BaseAdaptiveTextField(
-                  controller: _pw,
-                  platform: TargetPlatform.iOS,
-                  scrollPadding: EdgeInsets.only(
-                    bottom:
-                        DesignSystem.spacing.x128 + DesignSystem.spacing.x18,
-                  ),
-                  clearButton: true,
-                  placeholder: 'Password',
-                  errorPaddingAlways: true,
-                  obscureText: true,
-                  onSubmitted: (_) => _signIn(),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text.rich(
-                    textAlign: TextAlign.right,
-                    TextSpan(
-                      text: 'I may need to ',
-                      children: <InlineSpan>[
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.baseline,
-                          baseline: TextBaseline.alphabetic,
-                          child: InkWell(
-                            onTap: () => BaseAppRouter()
-                                .navigateTo(context, PreAppRoutes.forgot),
-                            hoverColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            child: Text(
-                              'reset my password',
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
-                            ),
-                          ),
-                        ),
-                        const TextSpan(
-                          text: '.',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: DesignSystem.spacing.x24),
-                FutureBuilder<Session?>(
-                  future: _session,
-                  builder: (context, asyncSession) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: BaseButton(
-                            onPressed: _signIn,
-                            text: 'Login',
-                            loading: asyncSession.connectionState ==
-                                ConnectionState.waiting,
-                          ),
-                        ),
-                        SizedBox(height: DesignSystem.spacing.x12),
-                        AnimatedContainer(
-                          duration: DesignSystem.animation.defaultDurationMS250,
-                          child: asyncSession.hasError
-                              ? const Fader(
-                                  child: BaseErrorText(
-                                    'Email and Password combination does not exist!',
-                                  ),
-                                )
-                              : const SizedBox(),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
+          below: Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: EdgeInsets.only(right: DesignSystem.spacing.x24),
+              child: const VersionText(),
             ),
+          ),
+          child: Column(
+            children: [
+              Form(
+                child: Column(
+                  children: [
+                    BaseAdaptiveTextField(
+                      controller: _email,
+                      platform: TargetPlatform.iOS,
+                      scrollPadding: EdgeInsets.only(
+                        bottom: DesignSystem.spacing.x192 +
+                            DesignSystem.spacing.x18,
+                      ),
+                      clearButton: true,
+                      placeholder: 'Email',
+                      errorPaddingAlways: true,
+                      keyboardType: TextInputType.emailAddress,
+                      onSubmitted: (_) => _signIn(),
+                    ),
+                    SizedBox(height: DesignSystem.spacing.x4),
+                    BaseAdaptiveTextField(
+                      controller: _pw,
+                      platform: TargetPlatform.iOS,
+                      scrollPadding: EdgeInsets.only(
+                        bottom: DesignSystem.spacing.x128 +
+                            DesignSystem.spacing.x18,
+                      ),
+                      clearButton: true,
+                      placeholder: 'Password',
+                      errorPaddingAlways: true,
+                      obscureText: true,
+                      onSubmitted: (_) => _signIn(),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text.rich(
+                  textAlign: TextAlign.right,
+                  TextSpan(
+                    text: 'I may need to ',
+                    children: <InlineSpan>[
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.baseline,
+                        baseline: TextBaseline.alphabetic,
+                        child: InkWell(
+                          onTap: () => BaseAppRouter()
+                              .navigateTo(context, PreAppRoutes.forgot),
+                          hoverColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Text(
+                            'reset my password',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary),
+                          ),
+                        ),
+                      ),
+                      const TextSpan(
+                        text: '.',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: DesignSystem.spacing.x24),
+              FutureBuilder<Session?>(
+                future: _session,
+                builder: (context, asyncSession) {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: BaseButton(
+                          onPressed: _signIn,
+                          text: 'Login',
+                          loading: asyncSession.connectionState ==
+                              ConnectionState.waiting,
+                        ),
+                      ),
+                      SizedBox(height: DesignSystem.spacing.x12),
+                      AnimatedContainer(
+                        duration: DesignSystem.animation.defaultDurationMS250,
+                        child: asyncSession.hasError
+                            ? const Fader(
+                                child: BaseErrorText(
+                                  'Email and Password combination does not exist!',
+                                ),
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

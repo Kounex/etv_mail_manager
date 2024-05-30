@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../models/etv_mail/etv_mail.dart';
-import '../../../../models/etv_mail/service.dart';
 
 class MailBoxTitle extends StatelessWidget {
   final Iterable<ETVMail>? mails;
@@ -56,7 +55,7 @@ class MailBoxTitle extends StatelessWidget {
           visualDensity: VisualDensity.compact,
         ),
         SizedBox(width: DesignSystem.spacing.x12),
-        if (ETVMailService().mails.value.isLoading)
+        if (this.mails == null)
           Row(
             children: [
               BaseProgressIndicator(
@@ -66,9 +65,9 @@ class MailBoxTitle extends StatelessWidget {
               const Text('Fetching...'),
             ],
           ),
-        if (!ETVMailService().mails.value.isLoading)
+        if (this.mails != null)
           Text(
-            '${mails?.length ?? 0} mail${(mails?.length ?? 0) == 1 ? "" : "s"}',
+            '${this.mails!.length} mail${(this.mails!.length) == 1 ? "" : "s"}',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
       ],
