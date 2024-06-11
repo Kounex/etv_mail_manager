@@ -23,30 +23,64 @@ class _ValidatedMailsState extends State<ValidatedMails> {
           .value!
           .any((existingMail) => existingMail.address == mail.address);
 
-  void _importMails() {
+  void _importMails(Iterable<ETVMail> mails) {
     ModalUtils.showBaseDialog(
       context,
       ConfirmationDialog(
         title: 'Import Emails',
         body: 'Are you sure you want to import the validated emails?',
         onYes: (_) {
-          List<ETVMail> mailsToCreate = [];
-          for (final mail in ImportSignals().validatedMails.value) {
-            if (_mailIsNew(mail)) {
-              mailsToCreate.add(mail);
-            }
-          }
-
-          if (mailsToCreate.isNotEmpty) {
-            ETVMailService().createBulk(mailsToCreate).then((_) {
+          if (mails.isNotEmpty) {
+            ETVMailService().createBulk(mails.toList()).then((_) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    '${mailsToCreate.length} mail${mailsToCreate.length > 1 ? "s" : ""} imported!',
+                    '${mails.length} mail${mails.length > 1 ? "s" : ""} imported!',
                   ),
                 ),
               );
             });
+          }
+        },
+      ),
+    );
+  }
+
+  void _leftBadmintonBatch(Iterable<ETVMail> mails) {
+    ModalUtils.showBaseDialog(
+      context,
+      ConfirmationDialog(
+        title: 'Batch Left ETV',
+        body:
+            'Are you sure you want to batch update the validated emails to \'Left ETV\'?',
+        onYes: (_) {
+          if (mails.isNotEmpty) {
+            List<ETVMail> updatedMails = mails
+                .where((mail) => !_mailIsNew(mail))
+                .map((mail) => mail.copyWith(
+                    type: MailType.removed,
+                    commonReason: CommonReason.leftBadminton))
+                .toList();
+
+            if (updatedMails.isNotEmpty) {
+              ETVMailService().updateBulk(updatedMails).then((_) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${mails.length} mail${mails.length > 1 ? "s" : ""} updated!',
+                    ),
+                  ),
+                );
+              });
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'No emails found to update!',
+                  ),
+                ),
+              );
+            }
           }
         },
       ),
@@ -60,7 +94,9 @@ class _ValidatedMailsState extends State<ValidatedMails> {
         Iterable<ETVMail> importableMails = ImportSignals()
             .validatedMails
             .value
-            .where((mail) => _mailIsNew(mail));
+            .where((mail) => ImportSignals().membershipExpiredMode.value
+                ? !_mailIsNew(mail)
+                : _mailIsNew(mail));
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -82,7 +118,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                             horizontal: DesignSystem.spacing.x18,
                           ),
                           child: Text(
-                            '${importableMails.length} mail${importableMails.length == 1 ? "" : "s"} ready to be imported',
+                            '${importableMails.length} mail${importableMails.length == 1 ? "" : "s"} ready to be ${ImportSignals().membershipExpiredMode.value ? "updated" : "imported"}',
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
@@ -97,10 +133,18 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                                 ImportSignals().validatedMails.value.map(
                                       (mail) => Chip(
                                         label: Text(mail.address),
-                                        backgroundColor: !_mailIsNew(mail)
+                                        backgroundColor: (ImportSignals()
+                                                    .membershipExpiredMode
+                                                    .value
+                                                ? _mailIsNew(mail)
+                                                : !_mailIsNew(mail))
                                             ? Colors.red[100]
                                             : null,
-                                        labelStyle: !_mailIsNew(mail)
+                                        labelStyle: (ImportSignals()
+                                                    .membershipExpiredMode
+                                                    .value
+                                                ? _mailIsNew(mail)
+                                                : !_mailIsNew(mail))
                                             ? const TextStyle(
                                                 decoration:
                                                     TextDecoration.lineThrough,
@@ -125,19 +169,47 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                     ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const QuestionMarkTooltip(
-                    message:
-                        'When validating emails, the algorithm in the background will check for existing emails and only add new ones. Existing emails will be highlighted in the box.'),
-                SizedBox(width: DesignSystem.spacing.x12),
-                SizedBox(
-                  width: DesignSystem.size.x128,
-                  child: BaseButton(
-                    onPressed: importableMails.isNotEmpty ? _importMails : null,
-                    text: 'Import',
-                  ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    BaseCheckbox(
+                        value: ImportSignals().membershipExpiredMode.value,
+                        text: 'Membership expired',
+                        onChanged: (_) =>
+                            ImportSignals().membershipExpiredMode.value =
+                                !ImportSignals().membershipExpiredMode.value),
+                    SizedBox(width: DesignSystem.spacing.x12),
+                    const QuestionMarkTooltip(
+                        message:
+                            'Without this checkbox, importing will add the validated emails and flag them as active. This is the default use case for importing emails.\n\nEvery time we get a new email list from ETV, we can also see all the people who ended their membership. Therefore we then need to be able to bulk update our existing emails and flag them accordingly. This checkbox will change the behaviour and match the validated emails with the existing ones and update those to be flagged as removed with the reason \'Left Badminton\'.'),
+                  ],
                 ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: DesignSystem.size.x128,
+                      child: BaseButton(
+                          onPressed: importableMails.isNotEmpty &&
+                                  ImportSignals().membershipExpiredMode.value
+                              ? () => _leftBadmintonBatch(importableMails)
+                              : null,
+                          text: 'Update'),
+                    ),
+                    SizedBox(width: DesignSystem.spacing.x12),
+                    SizedBox(
+                      width: DesignSystem.size.x128,
+                      child: BaseButton(
+                        onPressed: importableMails.isNotEmpty &&
+                                !ImportSignals().membershipExpiredMode.value
+                            ? () => _importMails(importableMails)
+                            : null,
+                        text: 'Import',
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ],

@@ -93,10 +93,10 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
           TextButton(
             onPressed: _handleDelete,
             style: ButtonStyle(
-              foregroundColor: const MaterialStatePropertyAll(
+              foregroundColor: const WidgetStatePropertyAll(
                 CupertinoColors.destructiveRed,
               ),
-              overlayColor: MaterialStatePropertyAll(
+              overlayColor: WidgetStatePropertyAll(
                 CupertinoColors.destructiveRed.withOpacity(0.1),
               ),
             ),

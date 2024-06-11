@@ -7,6 +7,8 @@ class ImportSignals {
   final validatedMails = SetSignal<ETVMail>({});
   final wrongMails = SetSignal<String>({});
 
+  final membershipExpiredMode = Signal(false);
+
   ImportSignals._();
 
   factory ImportSignals() => _instance ??= ImportSignals._();
