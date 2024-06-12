@@ -17,7 +17,7 @@ class BaseAppRouter {
   BaseAppRouter._() {
     router = GoRouter(
       navigatorKey: _rootKey,
-      initialLocation: PreAppRoutes.login.fullPath,
+      initialLocation: AppRoutes.dashboard.fullPath,
       redirect: (context, state) async {
         // try {
         //   final authState = await BaseSupabaseClient().authStream().last;
