@@ -62,18 +62,6 @@ class _MailTextFieldState extends State<MailTextField> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const EnumerationBlock(
-            title:
-                'Paste the email addresses which should be imported. Allowed separators:',
-            entries: [
-              'comma (,)',
-              'semicolon (;)',
-              'space ( )',
-              'newline (\\n)',
-              'tab (\\t)'
-            ],
-          ),
-          SizedBox(height: DesignSystem.spacing.x12),
           SizedBox(
             height: DesignSystem.size.x256,
             child: BaseKeyboardHeader(

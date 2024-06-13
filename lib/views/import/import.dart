@@ -1,7 +1,7 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/models/etv_mail/service.dart';
 import 'package:etv_mail_manager/utils/signals.dart';
-import 'package:etv_mail_manager/views/import/widgets/validated_mails.dart';
+import 'package:etv_mail_manager/views/import/widgets/validated_mails/validated_mails.dart';
 import 'package:etv_mail_manager/views/import/widgets/wrong_mails.dart';
 import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,18 @@ class _ImportViewState extends State<ImportView> {
   Widget build(BuildContext context) {
     return ETVScaffold(
       children: [
+        const EnumerationBlock(
+          title:
+              'Paste the email addresses which should be imported. Allowed separators:',
+          entries: [
+            'comma (,)',
+            'semicolon (;)',
+            'space ( )',
+            'newline (\\n)',
+            'tab (\\t)'
+          ],
+        ),
+        SizedBox(height: DesignSystem.spacing.x12),
         switch (DesignSystem.breakpoint(context: context)) {
           <= Breakpoint.sm => Column(
               children: [
@@ -47,12 +59,12 @@ class _ImportViewState extends State<ImportView> {
               children: [
                 Row(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Flexible(
                       child: MailTextField(),
                     ),
-                    SizedBox(width: DesignSystem.spacing.x24),
+                    SizedBox(width: DesignSystem.spacing.x48),
                     const Flexible(
                       child: ValidatedMails(),
                     ),
