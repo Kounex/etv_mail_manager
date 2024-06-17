@@ -26,6 +26,12 @@ class _ImportViewState extends State<ImportView> {
       ETVMailService().mailCreateBulk,
       handleLoading: true,
     );
+
+    SignalsUtils.handleAsync(
+      context,
+      ETVMailService().mailUpdateBulk,
+      handleLoading: true,
+    );
   }
 
   @override

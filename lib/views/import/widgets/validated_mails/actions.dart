@@ -51,19 +51,24 @@ class ValidatedMailsActions extends StatelessWidget {
         isYesDestructive: true,
         onYes: (_) {
           if (this.importableMails.isNotEmpty) {
-            List<ETVMail> updatedMails = this
-                .importableMails
-                .map((mail) => mail.copyWith(
-                    type: MailType.removed,
-                    commonReason: CommonReason.leftBadminton))
-                .toList();
+            List<ETVMail> updatedMails = ETVMailService()
+                    .mails
+                    .value
+                    .value
+                    ?.where((mail) => this.importableMails.any(
+                        (updateMail) => updateMail.address == mail.address))
+                    .map((mail) => mail.copyWith(
+                        type: MailType.removed,
+                        commonReason: CommonReason.leftBadminton))
+                    .toList() ??
+                [];
 
             if (updatedMails.isNotEmpty) {
               ETVMailService().updateBulk(updatedMails).then((_) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      '${this.importableMails.length} mail${this.importableMails.length > 1 ? "s" : ""} updated!',
+                      '${updatedMails.length} mail${updatedMails.length > 1 ? "s" : ""} updated!',
                     ),
                   ),
                 );
