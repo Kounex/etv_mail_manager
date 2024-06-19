@@ -22,8 +22,6 @@ class MailBox extends StatefulWidget {
 class _MailBoxState extends State<MailBox> {
   late final CustomValidationTextEditingController _controller;
 
-  Iterable<ETVMail>? _filteredMails;
-
   @override
   void initState() {
     super.initState();
@@ -45,12 +43,15 @@ class _MailBoxState extends State<MailBox> {
           .value
           ?.where((mail) => mail.type == this.widget.type);
 
-      _filteredMails = mails?.where((mail) => mail.address
+      Iterable<ETVMail>? filteredMails = mails?.where((mail) => mail.address
           .toLowerCase()
           .contains(_controller.text.toLowerCase().trim()));
 
       return BaseCard(
-        titleWidget: MailBoxTitle(mails: mails),
+        titleWidget: MailBoxTitle(
+          mails: filteredMails,
+          isFiltered: (filteredMails?.length ?? 0) != (mails?.length ?? 0),
+        ),
         titleStyle: Theme.of(context).textTheme.bodyLarge,
         leftPadding: 0,
         rightPadding: 0,
@@ -66,7 +67,7 @@ class _MailBoxState extends State<MailBox> {
         ),
         child: MailBoxContent(
           controller: _controller,
-          filteredMails: _filteredMails,
+          filteredMails: filteredMails,
         ),
       );
     });

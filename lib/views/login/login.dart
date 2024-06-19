@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../../router/view.dart';
@@ -16,7 +17,7 @@ class LoginView extends RouterStatefulView {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return WebScaffold(
+    return ETVScaffold(
       children: [
         Padding(
           padding: EdgeInsets.symmetric(vertical: DesignSystem.spacing.x24),
