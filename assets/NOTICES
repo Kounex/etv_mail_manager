@@ -5073,7 +5073,6 @@ path_provider_foundation
 path_provider_linux
 path_provider_platform_interface
 path_provider_windows
-platform
 plugin_platform_interface
 shared_preferences
 shared_preferences_android
@@ -30762,6 +30761,7 @@ SOFTWARE.
 --------------------------------------------------------------------------------
 json_annotation
 json_serializable
+platform
 
 Copyright 2017, the Dart project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
