@@ -32,7 +32,7 @@ class _ForgotFormState extends State<ForgotForm> {
 
   void _authHandler(AuthState state) {
     if (state.event == AuthChangeEvent.passwordRecovery) {
-      BaseAppRouter().navigateTo(context, PreAppRoutes.changePassword);
+      BaseAppRouter().navigateTo(context, PreAppRoute.changePassword);
     }
   }
 
@@ -64,94 +64,94 @@ class _ForgotFormState extends State<ForgotForm> {
           paddingChild: EdgeInsets.all(DesignSystem.spacing.x24),
           child: FutureBuilder<void>(
             future: _emailSent,
-            builder: (context, asyncEmailSent) =>
-                asyncEmailSent.connectionState == ConnectionState.done &&
-                        !asyncEmailSent.hasError
-                    ? Fader(
-                        child: Text(
-                          'An email to reset your password has been sent.\nPlease close this tab!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.green[700],
+            builder: (context, asyncEmailSent) => asyncEmailSent
+                            .connectionState ==
+                        ConnectionState.done &&
+                    !asyncEmailSent.hasError
+                ? Fader(
+                    child: Text(
+                      'An email to reset your password has been sent.\nPlease close this tab!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.green[700],
+                      ),
+                    ),
+                  )
+                : Form(
+                    child: Column(
+                      children: [
+                        BaseAdaptiveTextField(
+                          controller: _email,
+                          platform: TargetPlatform.iOS,
+                          scrollPadding: EdgeInsets.all(
+                            DesignSystem.spacing.x192 +
+                                DesignSystem.spacing.x16,
+                          ),
+                          clearButton: true,
+                          placeholder: 'Email',
+                          errorPaddingAlways: true,
+                          keyboardType: TextInputType.emailAddress,
+                          onSubmitted: (_) => _handleReset(),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text.rich(
+                            textAlign: TextAlign.right,
+                            TextSpan(
+                              text: 'I remember my password and ',
+                              children: <InlineSpan>[
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.baseline,
+                                  baseline: TextBaseline.alphabetic,
+                                  child: InkWell(
+                                    onTap: () => BaseAppRouter()
+                                        .navigateTo(context, PreAppRoute.login),
+                                    hoverColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    child: Text(
+                                      'want to login',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary),
+                                    ),
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: '.',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      )
-                    : Form(
-                        child: Column(
-                          children: [
-                            BaseAdaptiveTextField(
-                              controller: _email,
-                              platform: TargetPlatform.iOS,
-                              scrollPadding: EdgeInsets.all(
-                                DesignSystem.spacing.x192 +
-                                    DesignSystem.spacing.x16,
-                              ),
-                              clearButton: true,
-                              placeholder: 'Email',
-                              errorPaddingAlways: true,
-                              keyboardType: TextInputType.emailAddress,
-                              onSubmitted: (_) => _handleReset(),
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Text.rich(
-                                textAlign: TextAlign.right,
-                                TextSpan(
-                                  text: 'I remember my password and ',
-                                  children: <InlineSpan>[
-                                    WidgetSpan(
-                                      alignment: PlaceholderAlignment.baseline,
-                                      baseline: TextBaseline.alphabetic,
-                                      child: InkWell(
-                                        onTap: () => BaseAppRouter().navigateTo(
-                                            context, PreAppRoutes.login),
-                                        hoverColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        child: Text(
-                                          'want to login',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary),
-                                        ),
-                                      ),
-                                    ),
-                                    const TextSpan(
-                                      text: '.',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: DesignSystem.spacing.x24),
-                            SizedBox(
-                              width: double.infinity,
-                              child: BaseButton(
-                                onPressed: _handleReset,
-                                text: 'Reset Password',
-                                loading: asyncEmailSent.connectionState ==
-                                    ConnectionState.waiting,
-                              ),
-                            ),
-                            SizedBox(height: DesignSystem.spacing.x12),
-                            AnimatedContainer(
-                              duration:
-                                  DesignSystem.animation.defaultDurationMS250,
-                              child: asyncEmailSent.connectionState ==
-                                          ConnectionState.done &&
-                                      asyncEmailSent.hasError
-                                  ? const Fader(
-                                      child: BaseErrorText(
-                                        'Not possible to request a password reset right now.\nPlease try again later!',
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                            ),
-                          ],
+                        SizedBox(height: DesignSystem.spacing.x24),
+                        SizedBox(
+                          width: double.infinity,
+                          child: BaseButton(
+                            onPressed: _handleReset,
+                            text: 'Reset Password',
+                            loading: asyncEmailSent.connectionState ==
+                                ConnectionState.waiting,
+                          ),
                         ),
-                      ),
+                        SizedBox(height: DesignSystem.spacing.x12),
+                        AnimatedContainer(
+                          duration: DesignSystem.animation.defaultDurationMS250,
+                          child: asyncEmailSent.connectionState ==
+                                      ConnectionState.done &&
+                                  asyncEmailSent.hasError
+                              ? const Fader(
+                                  child: BaseErrorText(
+                                    'Not possible to request a password reset right now.\nPlease try again later!',
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ),
+                      ],
+                    ),
+                  ),
           ),
         ),
       ),

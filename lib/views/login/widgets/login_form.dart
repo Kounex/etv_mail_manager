@@ -48,7 +48,7 @@ class _LoginFormState extends State<LoginForm> {
 
   void _authHandler(AuthState state) {
     if (state.event == AuthChangeEvent.signedIn) {
-      BaseAppRouter().navigateTo(context, AppRoutes.dashboard);
+      BaseAppRouter().navigateTo(context, AppRoute.dashboard);
     }
   }
 
@@ -123,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                         baseline: TextBaseline.alphabetic,
                         child: InkWell(
                           onTap: () => BaseAppRouter()
-                              .navigateTo(context, PreAppRoutes.forgot),
+                              .navigateTo(context, PreAppRoute.forgot),
                           hoverColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           splashColor: Colors.transparent,

@@ -15,23 +15,23 @@ abstract class BaseRoute {
   RouterStatefulView view(GoRouterState state);
 }
 
-enum PreAppRoutes implements BaseRoute {
+enum PreAppRoute implements BaseRoute {
   login,
   forgot,
   changePassword;
 
   @override
   String get fullPath => switch (this) {
-        PreAppRoutes.login => '/login',
-        PreAppRoutes.forgot => '/forgot',
-        PreAppRoutes.changePassword => '/change-password',
+        PreAppRoute.login => '/login',
+        PreAppRoute.forgot => '/forgot',
+        PreAppRoute.changePassword => '/change-password',
       };
 
   @override
   String get name => switch (this) {
-        PreAppRoutes.login => 'Login',
-        PreAppRoutes.forgot => 'Forgot',
-        PreAppRoutes.changePassword => 'Change Password',
+        PreAppRoute.login => 'Login',
+        PreAppRoute.forgot => 'Forgot',
+        PreAppRoute.changePassword => 'Change Password',
       };
 
   @override
@@ -41,27 +41,25 @@ enum PreAppRoutes implements BaseRoute {
 
   @override
   RouterStatefulView view(GoRouterState state) => switch (this) {
-        PreAppRoutes.login => const LoginView(),
-        PreAppRoutes.forgot => const ForgotView(),
-        PreAppRoutes.changePassword =>
+        PreAppRoute.login => const LoginView(),
+        PreAppRoute.forgot => const ForgotView(),
+        PreAppRoute.changePassword =>
           ChangePasswordView(data: ChangePasswordRouterViewData(state: state)),
       };
 }
 
-enum AppRoutes implements BaseRoute {
+enum AppRoute implements BaseRoute {
   dashboard,
   import;
 
   @override
-  String get fullPath => switch (this) {
-        AppRoutes.dashboard => '/',
-        AppRoutes.import => '/import'
-      };
+  String get fullPath =>
+      switch (this) { AppRoute.dashboard => '/', AppRoute.import => '/import' };
 
   @override
   String get name => switch (this) {
-        AppRoutes.dashboard => 'Dashboard',
-        AppRoutes.import => 'Import'
+        AppRoute.dashboard => 'Dashboard',
+        AppRoute.import => 'Import'
       };
 
   @override
@@ -71,7 +69,7 @@ enum AppRoutes implements BaseRoute {
 
   @override
   RouterStatefulView view(GoRouterState state) => switch (this) {
-        AppRoutes.dashboard => const DashboardView(),
-        AppRoutes.import => const ImportView(),
+        AppRoute.dashboard => const DashboardView(),
+        AppRoute.import => const ImportView(),
       };
 }

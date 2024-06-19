@@ -79,8 +79,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                                   alignment: PlaceholderAlignment.baseline,
                                   baseline: TextBaseline.alphabetic,
                                   child: InkWell(
-                                    onTap: () => BaseAppRouter().navigateTo(
-                                        context, PreAppRoutes.login),
+                                    onTap: () => BaseAppRouter()
+                                        .navigateTo(context, PreAppRoute.login),
                                     hoverColor: Colors.transparent,
                                     focusColor: Colors.transparent,
                                     splashColor: Colors.transparent,

@@ -17,7 +17,7 @@ class BaseAppRouter {
   BaseAppRouter._() {
     router = GoRouter(
       navigatorKey: _rootKey,
-      initialLocation: AppRoutes.dashboard.fullPath,
+      initialLocation: AppRoute.dashboard.fullPath,
       redirect: (context, state) async {
         // try {
         //   final authState = await BaseSupabaseClient().authStream().last;
@@ -25,12 +25,12 @@ class BaseAppRouter {
         //   if (authState.event == AuthChangeEvent.passwordRecovery) {}
         // } catch (_) {}
 
-        if (AppRoutes.values.any((route) => route.fullPath == state.fullPath)) {
+        if (AppRoute.values.any((route) => route.fullPath == state.fullPath)) {
           final session = BaseSupabaseClient().session();
           if (session != null && !session.isExpired) {
             return state.uri.path;
           }
-          return PreAppRoutes.login.fullPath;
+          return PreAppRoute.login.fullPath;
         }
         return null;
       },
@@ -38,7 +38,7 @@ class BaseAppRouter {
         BaseSupabaseClient().authStream(),
       ),
       routes: [
-        ..._routes(PreAppRoutes.values),
+        ..._routes(PreAppRoute.values),
         ShellRoute(
           navigatorKey: _shellKey,
           pageBuilder: (context, state, child) => NoTransitionPage(
@@ -50,7 +50,7 @@ class BaseAppRouter {
               ),
             ),
           ),
-          routes: _routes(AppRoutes.values),
+          routes: _routes(AppRoute.values),
         ),
       ],
     );

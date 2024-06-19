@@ -136,9 +136,9 @@ class ValidatedMailsActions extends StatelessWidget {
         <= 512 => Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              membershipExpiredCheckbox,
-              SizedBox(height: DesignSystem.spacing.x8),
               actionButtons,
+              SizedBox(height: DesignSystem.spacing.x8),
+              membershipExpiredCheckbox,
             ],
           ),
         _ => Row(

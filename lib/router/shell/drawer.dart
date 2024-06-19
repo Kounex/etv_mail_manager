@@ -48,7 +48,7 @@ class ShellDrawer extends StatelessWidget {
                   ),
                   SizedBox(height: DesignSystem.spacing.x12),
                   const BaseDivider(),
-                  ...AppRoutes.values.map(
+                  ...AppRoute.values.map(
                     (route) => ListTile(
                       onTap: () {
                         BaseAppRouter().navigateTo(context, route);
