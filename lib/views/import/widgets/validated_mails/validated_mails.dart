@@ -2,7 +2,7 @@ import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/models/etv_mail/service.dart';
 import 'package:etv_mail_manager/views/import/signals/signals.dart';
 import 'package:etv_mail_manager/views/import/widgets/validated_mails/actions.dart';
-import 'package:etv_mail_manager/widgets/common_card_child_wrapper.dart';
+import 'package:etv_mail_manager/widgets/base_card_common_child.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
@@ -67,7 +67,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                           ),
                         ),
                         const BaseDivider(),
-                        CommonCardChildWrapper(
+                        BaseCardCommonChild(
                           child: Padding(
                             padding: EdgeInsets.all(DesignSystem.spacing.x18),
                             child: Wrap(
@@ -94,7 +94,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                         ),
                       ],
                     )
-                  : CommonCardChildWrapper(
+                  : BaseCardCommonChild(
                       scrollable: false,
                       child: Center(
                         child: BasePlaceholder(

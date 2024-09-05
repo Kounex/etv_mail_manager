@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/etv_mail/etv_mail.dart';
-import '../../../../widgets/common_card_child_wrapper.dart';
+import '../../../../widgets/base_card_common_child.dart';
 import 'dialogs/edit.dart';
 
 class MailBoxContent extends StatelessWidget {
@@ -32,7 +32,7 @@ class MailBoxContent extends StatelessWidget {
           ),
         ),
         const BaseDivider(),
-        CommonCardChildWrapper(
+        BaseCardCommonChild(
           paddingForScrollbar: false,
           children: this.filteredMails != null && this.filteredMails!.isNotEmpty
               ? List.from(

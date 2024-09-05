@@ -29,6 +29,9 @@ class _MailBoxState extends State<MailBox> {
     _controller = CustomValidationTextEditingController()
       ..addListener(() {
         if (this.mounted) {
+          /// TODO: only necessary because [Watch] does not rebuild on setState:
+          /// https://github.com/rodydavis/signals.dart/pull/303
+          ETVMailService().mails.refresh();
           setState(() {});
         }
       });
@@ -36,40 +39,36 @@ class _MailBoxState extends State<MailBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Watch((context) {
-      Iterable<ETVMail>? mails = ETVMailService()
-          .mails
-          .value
-          .value
-          ?.where((mail) => mail.type == this.widget.type);
+    return Watch(
+      (context) {
+        Iterable<ETVMail>? mails = ETVMailService()
+            .mails
+            .value
+            .value
+            ?.where((mail) => mail.type == this.widget.type);
 
-      Iterable<ETVMail>? filteredMails = mails?.where((mail) => mail.address
-          .toLowerCase()
-          .contains(_controller.text.toLowerCase().trim()));
+        Iterable<ETVMail>? filteredMails = mails?.where((mail) => mail.address
+            .toLowerCase()
+            .contains(_controller.text.toLowerCase().trim()));
 
-      return BaseCard(
-        titleWidget: MailBoxTitle(
-          mails: filteredMails,
-          isFiltered: (filteredMails?.length ?? 0) != (mails?.length ?? 0),
-        ),
-        titleStyle: Theme.of(context).textTheme.bodyLarge,
-        leftPadding: 0,
-        rightPadding: 0,
-        paddingChild: const EdgeInsets.all(0),
-        initialExpanded: false,
-        centerChild: false,
-        trailingTitleWidget: Padding(
-          padding: EdgeInsets.only(right: DesignSystem.spacing.x12),
-          child: TagBox(
-            color: this.widget.type.color,
-            label: this.widget.type.name,
+        return BaseCard(
+          titleWidget: MailBoxTitle(
+            type: this.widget.type,
+            mails: filteredMails,
+            isFiltered: (filteredMails?.length ?? 0) != (mails?.length ?? 0),
           ),
-        ),
-        child: MailBoxContent(
-          controller: _controller,
-          filteredMails: filteredMails,
-        ),
-      );
-    });
+          titleStyle: Theme.of(context).textTheme.bodyLarge,
+          leftPadding: 0,
+          rightPadding: 0,
+          paddingChild: const EdgeInsets.all(0),
+          initialExpanded: false,
+          centerChild: false,
+          child: MailBoxContent(
+            controller: _controller,
+            filteredMails: filteredMails,
+          ),
+        );
+      },
+    );
   }
 }
