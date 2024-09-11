@@ -1,9 +1,9 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/router/router.dart';
-import 'package:etv_mail_manager/signals/meta.dart';
-import 'package:etv_mail_manager/utils/supabase/client.dart';
+import 'package:etv_mail_manager/router/shell/header.dart';
+import 'package:etv_mail_manager/router/shell/logout.dart';
+import 'package:etv_mail_manager/router/shell/status.dart';
 import 'package:flutter/material.dart';
-import 'package:signals_flutter/signals_flutter.dart';
 
 import '../routes.dart';
 
@@ -15,38 +15,11 @@ class ShellDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
+          const ShellHeader(),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: MediaQuery.paddingOf(context).top +
-                        DesignSystem.spacing.x12,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(width: DesignSystem.spacing.x24),
-                      Image.asset(
-                        'assets/images/etv-logo.png',
-                        height: DesignSystem.size.x128,
-                      ),
-                      SizedBox(width: DesignSystem.spacing.x24),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Badminton',
-                            style: Theme.of(context).textTheme.headlineLarge,
-                          ),
-                          Text(
-                            'Mail Manager',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: DesignSystem.spacing.x12),
                   const BaseDivider(),
                   ...AppRoute.values.map(
                     (route) => ListTile(
@@ -63,44 +36,8 @@ class ShellDrawer extends StatelessWidget {
           ),
           const BaseDivider(),
           SizedBox(height: DesignSystem.spacing.x8),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.only(left: DesignSystem.spacing.x12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(BaseSupabaseClient().session()?.user.email ?? 'Unknown'),
-                  Text(
-                    BaseSupabaseClient().session()?.user.role ?? 'Unknown',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  SizedBox(height: DesignSystem.spacing.x8),
-                  Watch(
-                    (_) => Text(
-                      MetaSignals().appVersion.value.maybeMap(
-                            data: (version) => version,
-                            orElse: () => '-',
-                          ),
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            color: Theme.of(context).disabledColor,
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(DesignSystem.spacing.x24),
-            child: SizedBox(
-              width: double.infinity,
-              child: BaseButton(
-                onPressed: () => BaseSupabaseClient().signOut(),
-                text: 'Logout',
-              ),
-            ),
-          ),
+          const ShellStatus(),
+          const ShellLogout(),
         ],
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:etv_mail_manager/types/classes/listenable_from_stream.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,10 @@ class BaseAppRouter {
 
   late final GoRouter router;
 
+  /// Initially [currentRoute] is the [initialLocation] and will be updated
+  /// in the redirect function
+  BaseRoute currentRoute = AppRoute.dashboard;
+
   BaseAppRouter._() {
     router = GoRouter(
       navigatorKey: _rootKey,
@@ -25,13 +30,25 @@ class BaseAppRouter {
         //   if (authState.event == AuthChangeEvent.passwordRecovery) {}
         // } catch (_) {}
 
-        if (AppRoute.values.any((route) => route.fullPath == state.fullPath)) {
-          final session = BaseSupabaseClient().session();
-          if (session != null && !session.isExpired) {
-            return state.uri.path;
-          }
-          return PreAppRoute.login.fullPath;
+        BaseRoute? currentRoute = <BaseRoute>[
+          ...PreAppRoute.values,
+          ...AppRoute.values
+        ].firstWhereOrNull((route) => route.fullPath == state.fullPath);
+
+        if (currentRoute == null) {
+          this.currentRoute = AppRoute.dashboard;
+          return this.currentRoute.fullPath;
         }
+
+        if (AppRoute.values.any((route) => route == currentRoute)) {
+          final session = BaseSupabaseClient().session();
+          if (session == null || session.isExpired) {
+            this.currentRoute = PreAppRoute.login;
+            return this.currentRoute.fullPath;
+          }
+        }
+
+        this.currentRoute = currentRoute;
         return null;
       },
       refreshListenable: ListenableFromStream(
@@ -68,7 +85,7 @@ class BaseAppRouter {
     return List.from(
       routesForLevel.map(
         (route) => GoRoute(
-          parentNavigatorKey: route.fullscreen ? _shellKey : null,
+          // parentNavigatorKey: route.fullscreen ? _shellKey : null,
           path:
               '/${route.fullPath.split('/').skip(level + 1).take(1).join('')}',
           name: route.name,

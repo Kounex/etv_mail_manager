@@ -6,10 +6,25 @@ import 'package:flutter/widgets.dart';
 import '../utils/theme.dart';
 
 class ETVBanner extends StatelessWidget {
-  const ETVBanner({super.key});
+  final bool onlyStripe;
+
+  const ETVBanner({
+    super.key,
+    this.onlyStripe = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (this.onlyStripe) {
+      return Container(
+        height: DesignSystem.size.x8 + MediaQuery.paddingOf(context).top,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: ThemeUtils.etvColor,
+        ),
+      );
+    }
+
     return Stack(
       clipBehavior: Clip.none,
       children: [

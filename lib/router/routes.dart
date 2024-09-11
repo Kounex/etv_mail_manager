@@ -2,15 +2,18 @@ import 'package:etv_mail_manager/router/view.dart';
 import 'package:etv_mail_manager/views/change_password/change_password.dart';
 import 'package:etv_mail_manager/views/forgot/forgot.dart';
 import 'package:etv_mail_manager/views/login/login.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../views/dashboard/dashboard.dart';
 import '../views/import/import.dart';
 
 abstract class BaseRoute {
+  bool get isRoot;
   String get fullPath;
   String get name;
-  bool get fullscreen;
+  IconData get icon;
 
   RouterStatefulView view(GoRouterState state);
 }
@@ -19,6 +22,13 @@ enum PreAppRoute implements BaseRoute {
   login,
   forgot,
   changePassword;
+
+  @override
+  bool get isRoot => switch (this) {
+        PreAppRoute.login => true,
+        PreAppRoute.forgot => true,
+        PreAppRoute.changePassword => true,
+      };
 
   @override
   String get fullPath => switch (this) {
@@ -35,8 +45,11 @@ enum PreAppRoute implements BaseRoute {
       };
 
   @override
-  bool get fullscreen => switch (this) {
-        _ => false,
+  IconData get icon => switch (this) {
+        PreAppRoute.login => Icons.login,
+        PreAppRoute.forgot => CupertinoIcons.question_diamond_fill,
+        PreAppRoute.changePassword =>
+          CupertinoIcons.arrow_up_arrow_down_square_fill,
       };
 
   @override
@@ -53,6 +66,12 @@ enum AppRoute implements BaseRoute {
   import;
 
   @override
+  bool get isRoot => switch (this) {
+        AppRoute.dashboard => true,
+        AppRoute.import => true,
+      };
+
+  @override
   String get fullPath =>
       switch (this) { AppRoute.dashboard => '/', AppRoute.import => '/import' };
 
@@ -63,8 +82,9 @@ enum AppRoute implements BaseRoute {
       };
 
   @override
-  bool get fullscreen => switch (this) {
-        _ => false,
+  IconData get icon => switch (this) {
+        AppRoute.dashboard => Icons.dashboard,
+        AppRoute.import => CupertinoIcons.arrow_down_doc_fill,
       };
 
   @override
