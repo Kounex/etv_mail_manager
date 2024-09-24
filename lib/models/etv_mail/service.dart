@@ -22,8 +22,8 @@ class ETVMailService implements ModelClient<ETVMail> {
   final mailDeleteBulk = asyncSignal<List<ETVMail?>?>(AsyncState.data(null));
 
   ETVMailService._() {
-    SignalsUtils.handleSignal(mails);
     mails = futureSignal(getAll, autoDispose: false);
+    SignalsUtils.handleSignal(mails);
   }
 
   factory ETVMailService() => _instance ??= ETVMailService._();
