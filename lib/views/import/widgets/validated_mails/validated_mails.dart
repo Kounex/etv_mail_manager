@@ -1,12 +1,11 @@
 import 'package:base_components/base_components.dart';
-import 'package:etv_mail_manager/models/etv_mail/service.dart';
+import 'package:etv_mail_manager/types/classes/validated_mail.dart';
 import 'package:etv_mail_manager/views/import/signals/signals.dart';
 import 'package:etv_mail_manager/views/import/widgets/validated_mails/actions.dart';
+import 'package:etv_mail_manager/views/import/widgets/validated_mails/mail_chip.dart';
 import 'package:etv_mail_manager/widgets/base_card_common_child.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-
-import '../../../../models/etv_mail/etv_mail.dart';
 
 class ValidatedMails extends StatefulWidget {
   const ValidatedMails({super.key});
@@ -16,30 +15,15 @@ class ValidatedMails extends StatefulWidget {
 }
 
 class _ValidatedMailsState extends State<ValidatedMails> {
-  bool _mailIsNew(ETVMail mail) =>
-      ETVMailService().mails.value.value == null ||
-      !ETVMailService()
-          .mails
-          .value
-          .value!
-          .any((existingMail) => existingMail.address == mail.address);
-
-  bool _mailCanSetExpired(ETVMail mail) =>
-      ETVMailService().mails.value.value != null &&
-      ETVMailService().mails.value.value!.any((existingMail) =>
-          existingMail.address == mail.address &&
-          existingMail.commonReason != CommonReason.leftBadminton);
-
   @override
   Widget build(BuildContext context) {
     return BaseConstrainedBox(
       child: Watch((context) {
-        final isValid = ImportSignals().membershipExpiredMode.value
-            ? _mailCanSetExpired
-            : _mailIsNew;
-
-        Iterable<ETVMail> importableMails =
-            ImportSignals().validatedMails.value.where(isValid);
+        final amountImportableMails = ImportSignals()
+            .validatedMails
+            .value
+            .where((mail) => mail.action != ValidatedMailAction.noAction)
+            .length;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -52,7 +36,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
               bottomPadding: DesignSystem.spacing.x12,
               paddingChild: const EdgeInsets.all(0),
               centerChild: false,
-              child: ImportSignals().validatedMails.value.isNotEmpty
+              child: ImportSignals().mails.value.isNotEmpty
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -62,7 +46,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                             horizontal: DesignSystem.spacing.x18,
                           ),
                           child: Text(
-                            '${importableMails.length} mail${importableMails.length == 1 ? "" : "s"} ready to be ${ImportSignals().membershipExpiredMode.value ? "updated" : "imported"}',
+                            '$amountImportableMails mail${amountImportableMails == 1 ? "" : "s"} ready to be ${ImportSignals().membershipExpiredMode.value ? "updated" : "imported"}',
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
@@ -75,18 +59,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                               runSpacing: DesignSystem.spacing.x8,
                               children: List.from(
                                 ImportSignals().validatedMails.value.map(
-                                      (mail) => Chip(
-                                        label: Text(mail.address),
-                                        backgroundColor: !isValid(mail)
-                                            ? Colors.red[100]
-                                            : null,
-                                        labelStyle: !isValid(mail)
-                                            ? const TextStyle(
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                              )
-                                            : null,
-                                      ),
+                                      (mail) => MailChip(validatedMail: mail),
                                     ),
                               ),
                             ),
@@ -104,7 +77,7 @@ class _ValidatedMailsState extends State<ValidatedMails> {
                       ),
                     ),
             ),
-            ValidatedMailsActions(importableMails: importableMails),
+            const ValidatedMailsActions(),
           ],
         );
       }),

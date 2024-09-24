@@ -3,8 +3,6 @@ import 'package:etv_mail_manager/widgets/etv_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/etv_mail/etv_mail.dart';
-import '../../models/etv_mail/service.dart';
-import '../../utils/signals.dart';
 import 'widgets/mail_box/mail_box.dart';
 
 class DashboardView extends RouterStatefulView {
@@ -15,27 +13,6 @@ class DashboardView extends RouterStatefulView {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  @override
-  void initState() {
-    super.initState();
-
-    SignalsUtils.handleAsync(
-      context,
-      ETVMailService().mailAddOrEdit,
-    );
-
-    SignalsUtils.handleAsync(
-      context,
-      ETVMailService().mailDelete,
-    );
-
-    SignalsUtils.handleAsync(
-      context,
-      ETVMailService().mailDeleteBulk,
-      handleLoading: true,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return const ETVScaffold(

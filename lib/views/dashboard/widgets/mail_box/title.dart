@@ -113,8 +113,7 @@ class MailBoxTitle extends StatelessWidget {
             children: [
               copyButton,
               SizedBox(width: DesignSystem.spacing.x24),
-              if (this.mails == null) fetchingRow,
-              if (this.mails != null) mailsRow,
+              this.mails == null ? fetchingRow : mailsRow,
               const Spacer(),
               tagBox,
             ],
@@ -129,7 +128,7 @@ class MailBoxTitle extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: DesignSystem.spacing.x24,
+                        height: DesignSystem.size.x24,
                         child: this.mails == null ? fetchingRow : mailsRow,
                       ),
                       SizedBox(height: DesignSystem.spacing.x8),

@@ -49,7 +49,7 @@ class _MailTextFieldState extends State<MailTextField> {
       Set<String>? mails = _extractPotentialEmails(_controller.text);
 
       if (mails != null && mails.isNotEmpty) {
-        ImportSignals().validatedMails.value = Set.from(
+        ImportSignals().mails.value = Set.from(
           mails.map((mail) => ETVMail.data(address: mail.trim())),
         );
       }
@@ -95,7 +95,7 @@ class _MailTextFieldState extends State<MailTextField> {
                   onPressed: () {
                     _controller.clear();
                     ImportSignals().wrongMails.clear();
-                    ImportSignals().validatedMails.clear();
+                    ImportSignals().mails.clear();
                   },
                   text: 'Reset',
                 ),

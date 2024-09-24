@@ -1,4 +1,5 @@
 import 'package:etv_mail_manager/models/client.dart';
+import 'package:etv_mail_manager/utils/signals.dart';
 import 'package:etv_mail_manager/utils/supabase/client.dart';
 import 'package:etv_mail_manager/utils/supabase/table.dart';
 import 'package:signals/signals.dart';
@@ -21,7 +22,8 @@ class ETVMailService implements ModelClient<ETVMail> {
   final mailDeleteBulk = asyncSignal<List<ETVMail?>?>(AsyncState.data(null));
 
   ETVMailService._() {
-    mails = futureSignal(() => getAll(), autoDispose: false);
+    SignalsUtils.handleSignal(mails);
+    mails = futureSignal(getAll, autoDispose: false);
   }
 
   factory ETVMailService() => _instance ??= ETVMailService._();
@@ -105,7 +107,7 @@ class ETVMailService implements ModelClient<ETVMail> {
     try {
       List<ETVMail?> result = await _client.createBulk(
         _table,
-        List.from(mailsToCreate.map((mail) => mail.toJson())),
+        mailsToCreate.map((mail) => mail.toJson()).toList(),
         ETVMail.fromJson,
       );
 
@@ -122,14 +124,14 @@ class ETVMailService implements ModelClient<ETVMail> {
     try {
       List<ETVMail?> result = await _client.updateBulk(
         _table,
-        List.from(
-          mailsToUpdate.map(
-            (mail) => MapEntry(
-              mail.uuid,
-              mail.toJson(),
-            ),
-          ),
-        ),
+        mailsToUpdate
+            .map(
+              (mail) => (
+                mail.uuid,
+                mail.toJson(),
+              ),
+            )
+            .toList(),
         ETVMail.fromJson,
       );
 
@@ -146,11 +148,7 @@ class ETVMailService implements ModelClient<ETVMail> {
     try {
       List<ETVMail?> result = await _client.deleteBulk(
         _table,
-        List.from(
-          List.from(
-            mailsToDelete.map((mail) => mail.uuid),
-          ),
-        ),
+        mailsToDelete.map((mail) => mail.uuid).toList(),
       );
 
       mailDeleteBulk.value = AsyncState.data(result);

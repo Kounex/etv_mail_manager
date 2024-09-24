@@ -12,11 +12,13 @@ import 'package:flutter/material.dart';
 class ETVScaffold extends StatelessWidget {
   final Iterable<Widget> children;
   final bool fadeIn;
+  final bool constrained;
 
   const ETVScaffold({
     super.key,
     required this.children,
     this.fadeIn = true,
+    this.constrained = true,
   });
 
   @override
@@ -24,6 +26,8 @@ class ETVScaffold extends StatelessWidget {
     return WebScaffold(
       verticalPadding: DesignSystem.spacing.x92,
       fadeIn: this.fadeIn,
+      constrained: this.constrained,
+      maxWidth: Breakpoint.xl.width,
       children: this.children,
     );
   }

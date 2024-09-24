@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'routes.dart';
 import 'shell/scaffold.dart';
 
-final _rootKey = GlobalKey<NavigatorState>();
+final rootKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
 
 class BaseAppRouter {
@@ -21,7 +21,7 @@ class BaseAppRouter {
 
   BaseAppRouter._() {
     router = GoRouter(
-      navigatorKey: _rootKey,
+      navigatorKey: rootKey,
       initialLocation: AppRoute.dashboard.fullPath,
       redirect: (context, state) async {
         // try {

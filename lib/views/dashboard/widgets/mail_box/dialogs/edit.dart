@@ -1,6 +1,7 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/models/etv_mail/etv_mail.dart';
 import 'package:etv_mail_manager/models/etv_mail/service.dart';
+import 'package:etv_mail_manager/utils/signals.dart';
 import 'package:etv_mail_manager/views/dashboard/widgets/mail_box/dialogs/mail_type_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,18 +54,20 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
 
   void _handleSave() {
     if (_email.isValid) {
-      ETVMailService()
-          .update(
-            this.widget.mail.copyWith(
-                  address: _email.text.toLowerCase().trim(),
-                  type: _type,
-                  commonReason: _commonReason,
-                  reason: _commonReason == CommonReason.other
-                      ? _reason.text.trim()
-                      : null,
-                ),
-          )
-          .then((_) => Navigator.of(context).pop());
+      SignalsUtils.handledAsyncTask(
+        [ETVMailService().mailAddOrEdit],
+        () => ETVMailService().update(
+          this.widget.mail.copyWith(
+                address: _email.text.toLowerCase().trim(),
+                type: _type,
+                commonReason: _commonReason,
+                reason: _commonReason == CommonReason.other
+                    ? _reason.text.trim()
+                    : null,
+              ),
+        ),
+        then: (_) => Navigator.of(context).pop(),
+      );
     }
   }
 
@@ -76,9 +79,11 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
         body:
             'Are you sure you want to delete this mail? You will need to go through the import procedure again to get it back!',
         isYesDestructive: true,
-        onYes: (_) => ETVMailService()
-            .delete(this.widget.mail.uuid)
-            .then((_) => Navigator.of(context).pop()),
+        onYes: (_) => SignalsUtils.handledAsyncTask(
+          [ETVMailService().mailDelete],
+          () => ETVMailService().delete(this.widget.mail.uuid),
+          then: (_) => Navigator.of(context).pop(),
+        ),
       ),
     );
   }
