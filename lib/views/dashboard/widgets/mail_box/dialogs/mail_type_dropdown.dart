@@ -42,9 +42,7 @@ class MailTypeDropdown extends StatelessWidget {
           ),
         ),
         SizedBox(width: DesignSystem.spacing.x12),
-        StatusDot(
-          color: this.type.color,
-        ),
+        StatusDot(color: this.type.color),
       ],
     );
   }

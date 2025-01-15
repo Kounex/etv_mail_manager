@@ -9,12 +9,7 @@ import '../../../../../utils/signals.dart';
 import '../../../signals/signals.dart';
 
 class BatchLeftETVDialog extends StatelessWidget {
-  final BuildContext parentContext;
-
-  const BatchLeftETVDialog({
-    super.key,
-    required this.parentContext,
-  });
+  const BatchLeftETVDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +36,12 @@ class BatchLeftETVDialog extends StatelessWidget {
               [];
 
           SignalsUtils.handledAsyncTask(
-            this.parentContext,
             [
               ETVMailService().mailUpdateBulk,
             ],
             () => ETVMailService().updateBulk(updatedMails),
             handleLoading: true,
+            loadingMessage: 'Updating mails...',
             then: (_) {
               if (!ETVMailService().mailUpdateBulk.value.hasError) {
                 scaffoldMessengerKey.currentState!.showSnackBar(

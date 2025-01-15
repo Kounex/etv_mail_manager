@@ -9,12 +9,7 @@ import '../../../../../utils/signals.dart';
 import '../../../signals/signals.dart';
 
 class ImportMailsDialog extends StatelessWidget {
-  final BuildContext parentContext;
-
-  const ImportMailsDialog({
-    super.key,
-    required this.parentContext,
-  });
+  const ImportMailsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +37,6 @@ class ImportMailsDialog extends StatelessWidget {
             [];
 
         SignalsUtils.handledAsyncTask(
-          this.parentContext,
           [
             ETVMailService().mailCreateBulk,
             ETVMailService().mailUpdateBulk,
@@ -53,6 +47,8 @@ class ImportMailsDialog extends StatelessWidget {
               ETVMailService().updateBulk(updatedMails),
           ]),
           handleLoading: true,
+          loadingMessage:
+              'Importing ${updatedMails.isNotEmpty ? "& updating " : ""}mails...',
           then: (_) {
             if (!ETVMailService().mailUpdateBulk.value.hasError &&
                 !ETVMailService().mailCreateBulk.value.hasError) {

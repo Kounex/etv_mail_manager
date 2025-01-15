@@ -15,14 +15,14 @@ class ValidatedMailsActions extends StatelessWidget {
   ) {
     ModalUtils.showBaseDialog(
       context,
-      ImportMailsDialog(parentContext: context),
+      const ImportMailsDialog(),
     );
   }
 
   void _leftBadmintonBatch(BuildContext context) {
     ModalUtils.showBaseDialog(
       context,
-      BatchLeftETVDialog(parentContext: context),
+      const BatchLeftETVDialog(),
     );
   }
 

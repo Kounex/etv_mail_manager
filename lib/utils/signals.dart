@@ -7,7 +7,6 @@ import '../router/router.dart';
 
 class SignalsUtils {
   static void handledAsyncTask<T, R>(
-    BuildContext context,
     Iterable<AsyncSignal<T?>> signals,
     Future<R> Function() task, {
     void Function(R taskResult)? then,
@@ -42,7 +41,6 @@ class SignalsUtils {
 
   static void Function() handleSignal<T>(
     AsyncSignal<T?> signal, {
-    BuildContext? context,
     String loadingMessage = 'Loading...',
   }) {
     return signal.subscribe(

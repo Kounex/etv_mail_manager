@@ -88,8 +88,8 @@ enum CommonReason {
         CommonReason.full => 'Inbox full',
         CommonReason.leftETV => 'Left ETV',
         CommonReason.leftBadminton => 'Left Badminton',
-        CommonReason.notInterested => 'Not interested in such mails',
-        CommonReason.parent => 'Is a parent and doesn\'t want such mails',
+        CommonReason.notInterested => 'Not interested in mails',
+        CommonReason.parent => 'Is a parent and doesn\'t want mails',
         CommonReason.other => 'Other',
       };
 }
