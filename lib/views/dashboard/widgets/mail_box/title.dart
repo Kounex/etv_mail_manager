@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../app.dart';
 import '../../../../models/etv_mail/etv_mail.dart';
 
 class MailBoxTitle extends StatelessWidget {
@@ -31,7 +32,7 @@ class MailBoxTitle extends StatelessWidget {
       );
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessengerKey.currentState!.showSnackBar(
           const SnackBar(
             content: Text('Copied to clipboard!'),
           ),
@@ -39,7 +40,7 @@ class MailBoxTitle extends StatelessWidget {
       }
     } catch (_) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessengerKey.currentState!.showSnackBar(
           const SnackBar(
             content: Text('Could not copy!'),
           ),

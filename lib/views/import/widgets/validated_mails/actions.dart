@@ -1,11 +1,10 @@
 import 'package:base_components/base_components.dart';
 import 'package:etv_mail_manager/types/classes/validated_mail.dart';
+import 'package:etv_mail_manager/views/import/widgets/validated_mails/dialogs/batch_left_etv.dart';
+import 'package:etv_mail_manager/views/import/widgets/validated_mails/dialogs/import_mails.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
-import '../../../../models/etv_mail/etv_mail.dart';
-import '../../../../models/etv_mail/service.dart';
-import '../../../../utils/signals.dart';
 import '../../signals/signals.dart';
 
 class ValidatedMailsActions extends StatelessWidget {
@@ -16,108 +15,14 @@ class ValidatedMailsActions extends StatelessWidget {
   ) {
     ModalUtils.showBaseDialog(
       context,
-      ConfirmationDialog(
-        title: 'Import Emails',
-        body: 'Are you sure you want to import the validated emails?',
-        isYesDestructive: true,
-        onYes: (_) {
-          final mailsToAdd =
-              ImportSignals().mailsByActions([ValidatedMailAction.add]);
-          final mailsToActive =
-              ImportSignals().mailsByActions([ValidatedMailAction.toActive]);
-
-          List<ETVMail> updatedMails = ETVMailService()
-                  .mails
-                  .value
-                  .value
-                  ?.where((mail) => mailsToActive
-                      .any((updateMail) => updateMail.address == mail.address))
-                  .map((mail) => mail.copyWith(
-                        type: MailType.active,
-                        commonReason: null,
-                      ))
-                  .toList() ??
-              [];
-
-          SignalsUtils.handledAsyncTask(
-            [
-              ETVMailService().mailCreateBulk,
-              ETVMailService().mailUpdateBulk,
-            ],
-            () => Future.wait([
-              if (mailsToAdd.isNotEmpty)
-                ETVMailService().createBulk(mailsToAdd),
-              if (updatedMails.isNotEmpty)
-                ETVMailService().updateBulk(updatedMails),
-            ]),
-            handleLoading: true,
-            then: (_) {
-              if (!ETVMailService().mailUpdateBulk.value.hasError &&
-                  !ETVMailService().mailCreateBulk.value.hasError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      '${[...mailsToAdd, ...mailsToActive].length} mail${[
-                            ...mailsToAdd,
-                            ...mailsToActive
-                          ].length > 1 ? "s" : ""} imported!',
-                    ),
-                  ),
-                );
-              }
-            },
-          );
-        },
-      ),
+      ImportMailsDialog(parentContext: context),
     );
   }
 
   void _leftBadmintonBatch(BuildContext context) {
     ModalUtils.showBaseDialog(
       context,
-      ConfirmationDialog(
-        title: 'Batch Left ETV',
-        body:
-            'Are you sure you want to batch update the validated emails to \'Left ETV\'?',
-        isYesDestructive: true,
-        onYes: (_) {
-          final mailsToRemoved =
-              ImportSignals().mailsByActions([ValidatedMailAction.toRemoved]);
-
-          if (mailsToRemoved.isNotEmpty) {
-            List<ETVMail> updatedMails = ETVMailService()
-                    .mails
-                    .value
-                    .value
-                    ?.where((mail) => mailsToRemoved.any(
-                        (updateMail) => updateMail.address == mail.address))
-                    .map((mail) => mail.copyWith(
-                        type: MailType.removed,
-                        commonReason: CommonReason.leftBadminton))
-                    .toList() ??
-                [];
-
-            SignalsUtils.handledAsyncTask(
-              [
-                ETVMailService().mailUpdateBulk,
-              ],
-              () => ETVMailService().updateBulk(updatedMails),
-              handleLoading: true,
-              then: (_) {
-                if (!ETVMailService().mailUpdateBulk.value.hasError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${updatedMails.length} mail${updatedMails.length > 1 ? "s" : ""} updated!',
-                      ),
-                    ),
-                  );
-                }
-              },
-            );
-          }
-        },
-      ),
+      BatchLeftETVDialog(parentContext: context),
     );
   }
 

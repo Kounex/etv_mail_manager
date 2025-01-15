@@ -55,6 +55,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
   void _handleSave() {
     if (_email.isValid) {
       SignalsUtils.handledAsyncTask(
+        context,
         [ETVMailService().mailAddOrEdit],
         () => ETVMailService().update(
           this.widget.mail.copyWith(
@@ -80,6 +81,7 @@ class _MailBoxEditDialogState extends State<MailBoxEditDialog> {
             'Are you sure you want to delete this mail? You will need to go through the import procedure again to get it back!',
         isYesDestructive: true,
         onYes: (_) => SignalsUtils.handledAsyncTask(
+          context,
           [ETVMailService().mailDelete],
           () => ETVMailService().delete(this.widget.mail.uuid),
           then: (_) => Navigator.of(context).pop(),

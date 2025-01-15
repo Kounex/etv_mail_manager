@@ -1,4 +1,5 @@
 import 'package:base_components/base_components.dart';
+import 'package:etv_mail_manager/app.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
@@ -6,16 +7,27 @@ import '../router/router.dart';
 
 class SignalsUtils {
   static void handledAsyncTask<T, R>(
+    BuildContext context,
     Iterable<AsyncSignal<T?>> signals,
     Future<R> Function() task, {
     void Function(R taskResult)? then,
     bool handleLoading = false,
     String loadingMessage = 'Loading...',
   }) {
+    if (handleLoading) {
+      OverlayUtils.showStatusOverlay(
+        overlayKey: overlayKey,
+        delayDuration: Duration.zero,
+        temporalOverlay: false,
+        content: BaseProgressIndicator(
+          text: loadingMessage,
+        ),
+      );
+    }
+
     final disposers = signals.map(
       (signal) => handleSignal(
         signal,
-        handleLoading: handleLoading,
         loadingMessage: loadingMessage,
       ),
     );
@@ -30,30 +42,18 @@ class SignalsUtils {
 
   static void Function() handleSignal<T>(
     AsyncSignal<T?> signal, {
-    bool handleLoading = false,
+    BuildContext? context,
     String loadingMessage = 'Loading...',
   }) {
     return signal.subscribe(
       (state) {
-        if (handleLoading) {
-          if (state.isLoading) {
-            OverlayUtils.showStatusOverlay(
-              context: rootKey.currentContext!,
-              delayDuration: Duration.zero,
-              temporalOverlay: false,
-              content: BaseProgressIndicator(
-                text: loadingMessage,
-              ),
-            );
-          } else {
-            OverlayUtils.closeAnyOverlay();
-          }
+        if (!state.isLoading) {
+          OverlayUtils.closeAnyOverlay();
         }
 
         if (state.hasError) {
-          ScaffoldMessenger.of(rootKey.currentContext!)
-              .hideCurrentMaterialBanner();
-          ScaffoldMessenger.of(rootKey.currentContext!).showMaterialBanner(
+          scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
+          scaffoldMessengerKey.currentState!.showMaterialBanner(
             MaterialBanner(
               content: Text(
                 state.error!.toString(),
@@ -69,8 +69,7 @@ class SignalsUtils {
                 TextButton(
                   onPressed: () {
                     signal.overrideWith(AsyncState.data(null));
-                    ScaffoldMessenger.of(rootKey.currentContext!)
-                        .clearMaterialBanners();
+                    scaffoldMessengerKey.currentState!.clearMaterialBanners();
                   },
                   child: const Text('Ok'),
                 ),
