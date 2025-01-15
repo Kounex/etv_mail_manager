@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/etv_mail_manager/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="App to manage mails">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="ETV Mail Manager">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <title>ETV Mail Manager</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "118984514";
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+
+<body>
+  <div class="lds-ring-wrapper">
+    <div id="loading" class="lds-ring">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div id="loading-text"></div>
+  </div>
+  <!-- <span id="overlay"></span> -->
+  <script>
+    // function disableFlutterScroll() {
+    //   const baseFlutterViewProps = window.document.getElementsByTagName('flutter-view')[0].style.cssText;
+    //   const baseBodyProps = window.document.getElementsByTagName('body')[0].style.cssText;
+    //   window.document.getElementsByTagName('flutter-view')[0].style.cssText = baseFlutterViewProps + ' z-index: -9999; touch-action: none';
+    //   window.document.getElementsByTagName('body')[0].style.cssText = baseBodyProps.replace('touch-action: none', '');
+    //   window.document.getElementById('overlay').className = 'block-input';
+    // }
+
+    // function enableFlutterScroll() {
+    //   const baseProps = window.document.getElementsByTagName('flutter-view')[0].style.cssText;
+    //   window.document.getElementsByTagName('flutter-view')[0].style.cssText = baseProps.replace('z-index: -9999; touch-action: none', '');
+    //   window.document.getElementById('overlay').className = '';
+    // }
+
+    window.addEventListener('load', function (ev) {
+      var loading = document.querySelector('#loading');
+      var loadingText = document.querySelector('#loading-text');
+      loadingText.textContent = 'Loading entrypoint...';
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: async function (engineInitializer) {
+          loadingText.textContent = 'Initializing engine...';
+          let appRunner = await engineInitializer.initializeEngine();
+
+          loadingText.textContent = 'Running app...';
+          await appRunner.runApp();
+        },
+      });
+    });
+  </script>
+</body>
+<style>
+  /* html, body {
+    overscroll-behavior: contain;
+  }
+
+  .block-input {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  flutter-view {
+    position: relative !important;
+  } */
+
+  body {
+    margin: 0 !important;
+  }
+
+  #loading-text {
+    margin-top: 64px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .lds-ring-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lds-ring,
+  .lds-ring div {
+    display: contents;
+    box-sizing: border-box;
+  }
+
+  .lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    margin: 4px;
+    margin-bottom: 64px;
+    border: 4px solid currentColor;
+    border-radius: 50%;
+    color: #db0d15;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: currentColor transparent transparent transparent;
+  }
+
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+</html>
