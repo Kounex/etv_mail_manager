@@ -59,44 +59,45 @@ class MailBoxTitle extends StatelessWidget {
       visualDensity: VisualDensity.compact,
     );
 
-    final fetchingRow = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(width: DesignSystem.spacing.x12),
-        BaseProgressIndicator(
-          size: DesignSystem.size.x18,
-        ),
-        SizedBox(width: DesignSystem.spacing.x12),
-        const Text('Fetching...'),
-      ],
-    );
-
     final mailsRow = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          this.mails == null
-              ? '-'
-              : '${this.mails!.length} mail${(this.mails!.length) == 1 ? "" : "s"}',
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFeatures: [
-            const FontFeature.tabularFigures(),
-          ]),
-          textAlign: TextAlign.right,
-        ),
-        SizedBox(width: DesignSystem.spacing.x12),
-        AnimatedColor(
-          color: this.isFiltered
-              ? CupertinoColors.activeBlue
-              : Theme.of(context).disabledColor,
-          builder: (context, color, child) => Icon(
-            CupertinoIcons.line_horizontal_3_decrease_circle_fill,
-            color: color,
+        if (this.mails == null) ...[
+          SizedBox(width: DesignSystem.spacing.x12),
+          BaseProgressIndicator(
             size: DesignSystem.size.x18,
           ),
-        ),
-        SizedBox(width: DesignSystem.spacing.x12),
+          SizedBox(width: DesignSystem.spacing.x12),
+          const Text('Fetching...'),
+        ],
+        if (this.mails != null) ...[
+          Text(
+            '${this.mails!.length} mail${(this.mails!.length) == 1 ? "" : "s"}',
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+              fontFeatures: [
+                const FontFeature.tabularFigures(),
+              ],
+            ),
+            textAlign: TextAlign.right,
+          ),
+          SizedBox(width: DesignSystem.spacing.x12),
+          AnimatedColor(
+            color: this.isFiltered
+                ? CupertinoColors.activeBlue
+                : Theme.of(context).disabledColor,
+            builder: (context, color, child) => Icon(
+              CupertinoIcons.line_horizontal_3_decrease_circle_fill,
+              color: color,
+              size: DesignSystem.size.x18,
+            ),
+          ),
+          SizedBox(width: DesignSystem.spacing.x12),
+        ],
       ],
     );
+
+    final mailTypeDescription = Text(this.type.description);
 
     final tagBox = Padding(
       padding: EdgeInsets.only(right: DesignSystem.spacing.x12),
@@ -110,13 +111,23 @@ class MailBoxTitle extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) => switch (constraints.maxWidth) {
-        > 320 => Row(
+        > 420 => Row(
             children: [
               copyButton,
               SizedBox(width: DesignSystem.spacing.x24),
-              this.mails == null ? fetchingRow : mailsRow,
-              const Spacer(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    mailsRow,
+                    SizedBox(height: DesignSystem.spacing.x4),
+                    mailTypeDescription,
+                  ],
+                ),
+              ),
+              SizedBox(width: DesignSystem.spacing.x24),
               tagBox,
+              SizedBox(width: DesignSystem.spacing.x12),
             ],
           ),
         _ => Align(
@@ -124,19 +135,23 @@ class MailBoxTitle extends StatelessWidget {
             child: Row(
               children: [
                 copyButton,
+                SizedBox(width: DesignSystem.spacing.x24),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: DesignSystem.size.x24,
-                        child: this.mails == null ? fetchingRow : mailsRow,
+                        child: mailsRow,
                       ),
+                      SizedBox(height: DesignSystem.spacing.x4),
+                      mailTypeDescription,
                       SizedBox(height: DesignSystem.spacing.x8),
                       tagBox,
                     ],
                   ),
                 ),
+                SizedBox(width: DesignSystem.spacing.x12),
               ],
             ),
           ),

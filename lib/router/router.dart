@@ -107,7 +107,10 @@ class BaseAppRouter {
         child: Title(
           title: 'EMM | ${route.name}',
           color: Colors.white,
-          child: route.view(state),
+          child: PopScope(
+            canPop: !rootKey.currentState!.userGestureInProgress,
+            child: route.view(state),
+          ),
         ),
       );
 }

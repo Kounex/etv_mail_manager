@@ -29,9 +29,6 @@ class _MailBoxState extends State<MailBox> {
     _controller = CustomValidationTextEditingController()
       ..addListener(() {
         if (this.mounted) {
-          /// TODO: only necessary because [Watch] does not rebuild on setState:
-          /// https://github.com/rodydavis/signals.dart/pull/303
-          ETVMailService().mails.refresh();
           setState(() {});
         }
       });

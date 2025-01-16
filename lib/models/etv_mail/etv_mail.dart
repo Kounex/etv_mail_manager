@@ -47,6 +47,15 @@ enum MailType {
         MailType.removed => 'Removed',
       };
 
+  String get description => switch (this) {
+        MailType.active =>
+          'Mail addresses from members which are active as far as we know and have reachable inboxes.',
+        MailType.unreachable =>
+          'Mail addresses from members which are active but cannot be reached for various reasons.',
+        MailType.removed =>
+          'Mail addresses from ex-members or active ones who don\'t want to get mails for various reasons.',
+      };
+
   Color get color => switch (this) {
         MailType.active => Colors.lightGreen,
         MailType.unreachable => Colors.orangeAccent,
